@@ -1,0 +1,74 @@
+{
+  "type": "Microsoft.VirtualMachineImages/imageTemplates",
+  "name": "aib-template-windows-iis-wus3",
+  "location": "westus3",
+  "identity": {
+    "type": "UserAssigned",
+    "userAssignedIdentities": {
+      "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourcegroups/rg-aib-images-wus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aib-identity-wus3": {}
+    }
+  },
+  "properties": {
+    "buildTimeoutInMinutes": 120,
+    "vmProfile": {
+      "vmSize": "Standard_B2as_v2"
+    },
+    "source": {
+      "type": "PlatformImage",
+      "publisher": "MicrosoftWindowsServer",
+      "offer": "WindowsServer",
+      "sku": "2022-datacenter-g2",
+      "version": "latest"
+    },
+    "customize": [
+      {
+        "type": "PowerShell",
+        "name": "Install and Configure IIS",
+        "inline": [
+          "Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature",
+          "Install-WindowsFeature -Name Web-Asp-Net45",
+          "sc.exe config W3SVC start=auto",
+          "sc.exe config WAS start=auto"
+        ]
+      },
+      {
+        "type": "WindowsRestart",
+        "restartCommand": "shutdown /r /f /t 0",
+        "restartCheckCommand": "echo Restarted",
+        "restartTimeout": "10m"
+      },
+      {
+        "type": "PowerShell",
+        "name": "Deploy Custom Landing Page",
+        "inline": [
+          "$html = '<!DOCTYPE html><html><head><title>Welcome</title></head>'",
+          "$html += '<body style=\"background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); color: white; text-align: center; font-family: Segoe UI, Tahoma, sans-serif; padding: 50px;\">'",
+          "$html += '<pre style=\"font-size: 1.2em; line-height: 1.2; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 20px auto; display: inline-block;\">'",
+          "$html += '    ___                        '",
+          "$html += '   /   |____  __  __________   '",
+          "$html += '  / /| /_  / / / / / ___/ _ \\  '",
+          "$html += ' / ___ |/ /_/ /_/ / /  /  __/  '",
+          "$html += '/_/  |_/___/\\__,_/_/   \\___/   '",
+          "$html += '                               '",
+          "$html += '  Image Builder v1.0.1         '",
+          "$html += '</pre>'",
+          "$html += '<h1 style=\"font-size: 3em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 30px 0;\">Welcome to Our Hardened Windows Server</h1>'",
+          "$html += '<p style=\"font-size: 1.4em; font-weight: 600; margin: 20px 0;\">*** This image was built with Azure Image Builder ***</p>'",
+          "$html += '<p style=\"font-size: 1.3em; font-weight: 500; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;\">Build Version: 1.0.1 | Built: 2025-12-09 | Region: West US 3 | >> Reboot Works!</p>'",
+          "$html += '</body></html>'",
+          "Set-Content -Path 'C:\\inetpub\\wwwroot\\index.html' -Value $html"
+        ]
+      }
+    ],
+    "distribute": [
+      {
+        "type": "SharedImage",
+        "galleryImageId": "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1",
+        "runOutputName": "windows-iis-hardened-1.0.1",
+        "replicationRegions": [
+          "westus3"
+        ]
+      }
+    ]
+  }
+}
