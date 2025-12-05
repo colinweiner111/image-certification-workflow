@@ -1,13 +1,6 @@
 ## POC - Hybrid Image Workshop
-## Presentation Deck + Speaker Notes
 
-> **Audience**: C-level, Infrastructure/Security teams, DevOps leads  
-> **Duration**: 60 minutes  
-> **Delivery**: Mix of slides, live portal demo (optional), Q&A  
-> **Supporting Doc**: Reference `README.md` for detailed material
----
-
-## SEGMENT 1: Welcome & Problem Statement (5 min)
+---## SEGMENT 1: Welcome & Problem Statement (5 min)
 
 ### Slide 1.1: Title Slide
 ```
