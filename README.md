@@ -30,7 +30,7 @@
 ---
 
 ## 1. Purpose  
-**Azure Image Builder** provides a managed, declarative approach to creating, hardening, certifying, and continuously updating OS images for deployment across hybrid environments—including Azure, Azure VMware Solution (AVS), on-premises VMware, and Hyper‑V. This document describes the complete workflow for leveraging Azure Image Builder with Azure Compute Gallery to maintain consistent, compliant images at scale.
+**Azure Image Builder** automates the creation, hardening, and continuous updating of OS images across hybrid environments (Azure, AVS, VMware, Hyper‑V). This document describes the complete workflow for maintaining consistent, compliant images at scale.
 
 ---
 
