@@ -1,6 +1,6 @@
 
-# Hybrid OS Image Creation, Certification & Continuous Update Workflow
-### Using Azure Image Builder (AIB) + Azure Compute Gallery (ACG)
+# Azure Image Builder: Enterprise Image Management for Hybrid Cloud
+### Automated creation, hardening, certification & continuous updates
 
 ---
 
