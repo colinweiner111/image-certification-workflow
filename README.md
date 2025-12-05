@@ -4,6 +4,30 @@
 
 ---
 
+## Table of Contents
+
+- [1. Purpose](#1-purpose)
+  - [1.1 Key Concepts](#11-key-concepts)
+- [2. High-Level Workflow Stages](#2-high-level-workflow-stages)
+  - [2.1 Production vs Non-Production Build Requirements](#21-production-vs-non-production-build-requirements)
+  - [2.2 Architecture Flow Diagram](#22-architecture-flow-diagram)
+- [3. Workflow Details](#3-workflow-details)
+  - [3.1 Initiation & Request](#31-initiation--request)
+  - [3.2 Pre-Validation & Baseline Alignment](#32-pre‑validation--baseline-alignment)
+  - [3.3 Image Build (Azure Image Builder)](#33-image-build-azure-image-builder)
+  - [3.4 Vulnerability & Malware Scanning](#34-vulnerability--malware-scanning)
+  - [3.5 Functional & Integration Testing](#35-functional--integration-testing)
+  - [3.6 Documentation & Approval](#36-documentation--approval)
+  - [3.7 Publication & Distribution](#37-publication--distribution)
+  - [3.8 Continuous Updates (Critical)](#38-continuous-updates-critical)
+- [4. Summary Workflow Diagram](#4-summary-workflow-diagram-text)
+  - [4.5 Anti-Patterns & Common Mistakes](#45-anti-patterns--common-mistakes)
+- [5. Metrics & KPIs](#5-metrics--kpis)
+- [6. Appendix](#6-appendix)
+- [7. Change Log](#7-change-log)
+
+---
+
 ## 1. Purpose  
 This document outlines the end-to-end workflow for creating, certifying, publishing, and continuously updating hardened OS images across hybrid environments (Azure, AVS, VMware, Hyper‑V).  
 
