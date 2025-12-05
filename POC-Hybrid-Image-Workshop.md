@@ -6,7 +6,7 @@
 
 ---
 
-### Slide 1.2: The Challenge (Speaker Notes)
+### Slide 1.2: The Challenge
 
 **Current Reality:**
 - ❌ Manual image builds on VMs → no audit trail, no versioning
