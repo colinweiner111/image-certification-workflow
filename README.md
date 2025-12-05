@@ -1,6 +1,6 @@
 
-# Azure Image Builder: Bulletproof Images for Hybrid Cloud
-### Harden once. Scan automatically. Deploy everywhere. Update continuously.
+# Hybrid OS Image Creation, Certification & Continuous Update Workflow
+### Using Azure Image Builder (AIB) + Azure Compute Gallery (ACG)
 
 ---
 
