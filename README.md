@@ -317,6 +317,22 @@ az sig image-version update \
   --exclude-from-latest false
 ```
 
+### Azure Image Builder & Packer Foundation
+**AIB is built on HashiCorp Packer:**
+- AIB is a **managed Azure service wrapper** around Packer
+- Microsoft handles Packer infrastructure, versioning, and execution
+- You don't install or manage Packer yourself
+- AIB templates use Azure-specific JSON schema (not native Packer HCL)
+- Under the hood, AIB converts templates to Packer configurations
+- Build logs show "PACKER OUT" and "PACKER ERR" messages
+
+**Benefits:**
+- Proven image building capabilities from Packer
+- Azure provides infrastructure, security, and isolation
+- Built-in integration with Azure services (ACG, managed identities, VNets)
+- Enterprise-grade logging and monitoring through Azure
+- No Packer version management or dependency conflicts
+
 ### Microsoft Docs  
 - Azure Image Builder Overview: https://learn.microsoft.com/azure/virtual-machines/image-builder-overview  
 - Image Customizers: https://learn.microsoft.com/azure/virtual-machines/linux/image-builder-json  

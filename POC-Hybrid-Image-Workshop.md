@@ -124,6 +124,13 @@ Present each concept with a **What** + **Why** format:
 #### **Concept 1: Azure Image Builder (AIB)**
 - **What**: Managed service that automates OS image creation, hardening, and customization using declarative templates.
 - **Why**: Removes manual image builds, ensures consistency, enables source control, integrates with CI/CD.
+- **Foundation**: Built on HashiCorp Packer—Microsoft manages the infrastructure, you provide the template.
+
+**Key Packer Integration:**
+- AIB is a managed Azure wrapper around Packer
+- Build logs show "PACKER OUT" and "PACKER ERR" messages
+- You get Packer's proven capabilities without managing Packer yourself
+- Azure handles versioning, security, and execution infrastructure
 
 ---
 
