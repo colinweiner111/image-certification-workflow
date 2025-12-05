@@ -253,6 +253,24 @@ Present each concept with a **What** + **Why** format:
   - [`aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json) - AIB template with IIS customization
   - [`cleanup.sh`](./demo-scripts/cleanup.sh) - Removes all demo resources
 
+**Download Demo Scripts to Your Local Machine:**
+```bash
+# Clone the entire repository
+git clone https://github.com/colinweiner111/image-certification-workflow.git
+cd image-certification-workflow/demo-scripts
+
+# Or download just the demo-scripts folder
+mkdir -p ~/aib-demo
+cd ~/aib-demo
+curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/demo-setup.sh
+curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/aib-template-windows-iis.json
+curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/cleanup.sh
+chmod +x *.sh
+
+# Now you can run the scripts
+bash demo-setup.sh
+```
+
 **Prerequisites**: Run the infrastructure setup script first (see setup section below or use `demo-setup.sh`).
 
 ---
