@@ -6,7 +6,7 @@
 
 ---
 
-### Slide 1.2: The Challenge
+### The Challenge
 
 **Current Reality:**
 - ❌ Manual image builds on VMs → no audit trail, no versioning
@@ -28,7 +28,7 @@
 
 ---
 
-### Slide 1.3: The Solution
+### The Solution
 
 **Declarative, Versioned, Auditable Images**
 
@@ -61,7 +61,7 @@ Continuous Rebuilds (Monthly or Triggered)
 
 ## Architecture & Key Concepts
 
-### Slide 2.1: High-Level Workflow Diagram
+### High-Level Workflow Diagram
 
 Display the architecture from `README.md` → **Section 2.2**:
 
@@ -113,7 +113,7 @@ Display the architecture from `README.md` → **Section 2.2**:
 
 ---
 
-### Slide 2.2: Key Concepts — Deep Dive
+### Key Concepts — Deep Dive
 
 **Reference**: `README.md` → **Section 1.1 (Key Concepts)**
 
@@ -172,7 +172,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 2.3: Why This Architecture Matters
+### Why This Architecture Matters
 
 **Single Image, Multiple Environments:**
 - Build once in AIB template ✅
@@ -198,7 +198,7 @@ Present each concept with a **What** + **Why** format:
 
 ## Build → Scan → Test → Approve Pipeline
 
-### Slide 3.1: Production vs. Dev/Test Requirements
+### Production vs. Dev/Test Requirements
 
 **Reference**: `README.md` → **Section 2.1 (Production vs Non-Production)**
 
@@ -218,7 +218,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 3.2: Step-by-Step Pipeline Walkthrough
+### Step-by-Step Pipeline Walkthrough
 
 **Reference**: `README.md` → **Section 3 (Workflow Details)**
 
@@ -235,7 +235,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 3.3: Live Lab Demo — Windows Server with IIS
+### Live Lab Demo — Windows Server with IIS
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
@@ -513,7 +513,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ## Production Requirements & Cost Management
 
-### Slide 4.1: Security Agent Strategy
+### Security Agent Strategy
 
 **Reference**: `README.md` → **Section 3.8 (Agent Management Strategy)**
 
@@ -532,7 +532,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.2: Production Compliance Checklist
+### Production Compliance Checklist
 
 **Compliance Notes:**
 
@@ -550,7 +550,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.3: Cost Breakdown & Optimization
+### Cost Breakdown & Optimization
 
 **Reference**: `README.md` → **Section 3.8 (Cost Management)**
 
@@ -577,7 +577,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.4: Emergency Patching Procedure
+### Emergency Patching Procedure
 
 **Reference**: `README.md` → **Section 3.8 (Emergency Patching)**
 
@@ -595,7 +595,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ## Anti-Patterns & Real-World Lessons (Bonus)
 
-### Slide 5.1: What NOT to Do
+### What NOT to Do
 
 **Reference**: `README.md` → **Section 4.5 (Anti-Patterns & Common Mistakes)**
 
@@ -623,7 +623,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 5.2: Configuration Drift Prevention
+### Configuration Drift Prevention
 
 **Reference**: `README.md` → **Section 3.8 (Avoiding Configuration Drift)**
 
@@ -655,7 +655,7 @@ Compliance confidence
 
 ## Next Steps & Closing
 
-### Slide 6.1: Immediate Action Items (Week 1)
+### Immediate Action Items (Week 1)
 
 **Three critical decisions to make:**
 
@@ -681,7 +681,7 @@ Compliance confidence
 
 ---
 
-### Slide 6.2: Short-Term Roadmap (Weeks 2–4)
+### Short-Term Roadmap (Weeks 2–4)
 
 | Week | Task | Owner | Deliverable |
 |------|------|-------|-------------|
@@ -692,7 +692,7 @@ Compliance confidence
 
 ---
 
-### Slide 6.3: Medium-Term Vision (Month 2+)
+### Medium-Term Vision (Month 2+)
 
 **By End of Month 2:**
 - ✅ First production image built, scanned, tested, approved
@@ -711,7 +711,7 @@ Compliance confidence
 
 ---
 
-### Slide 6.4: Key Questions for Customer (Q&A, 3–5 min)
+### Key Questions for Customer (Q&A, 3–5 min)
 
 **Ask these to understand their priorities:**
 
@@ -736,7 +736,7 @@ Compliance confidence
 
 ---
 
-### Slide 6.5: Closing Remarks
+### Closing Remarks
 
 **Recap:**
 > "We've covered the end-to-end workflow: from request through build, scan, test, approval, and distribution to Azure and hybrid environments. The key is **declarative, versioned, auditable images**—same hardening, same compliance, deployed everywhere."
