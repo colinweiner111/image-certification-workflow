@@ -1,6 +1,6 @@
 
-# Azure Image Builder: Build Once, Deploy Everywhere
-### Automated hardening, compliance scanning & zero-touch updates for hybrid cloud
+# Azure Image Builder: Bulletproof Images for Hybrid Cloud
+### Harden once. Scan automatically. Deploy everywhere. Update continuously.
 
 ---
 
