@@ -4,18 +4,6 @@
 
 ## SEGMENT 1: Welcome & Problem Statement
 
-### Slide 1.1: Title Slide
-```
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   Hybrid OS Image Creation, Certification &                ║
-║   Continuous Update Workflow                               ║
-║                                                              ║
-║   Using Azure Image Builder (AIB) +                        ║
-║   Azure Compute Gallery (ACG)                              ║
-╚══════════════════════════════════════════════════════════════╝
-```
-
 ---
 
 ### Slide 1.2: The Challenge (Speaker Notes)
