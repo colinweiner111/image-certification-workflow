@@ -460,48 +460,52 @@ Customizers            : Install IIS, Deploy Custom Landing Page
 #### **Demo Infrastructure Setup Script**
 
 **Automated Setup:**
-Create a `demo-commands.ps1` script to automate all infrastructure creation:
+Create a `demo-setup.sh` script to automate all infrastructure creation:
 
-```powershell
+```bash
+#!/bin/bash
 # AIB Demo Commands - Run these in order
 
 # Step 1: Create Resource Groups
-Write-Host "Creating resource groups..." -ForegroundColor Cyan
+echo "Creating resource groups..."
 az group create --name rg-aib-images --location eastus
 az group create --name rg-acg --location eastus
 az group create --name rg-demo --location eastus
 
 # Step 2: Create Azure Compute Gallery
-Write-Host "Creating Azure Compute Gallery..." -ForegroundColor Cyan
-az sig create `
-  --resource-group rg-acg `
-  --gallery-name acg_corp_images `
+echo "Creating Azure Compute Gallery..."
+az sig create \
+  --resource-group rg-acg \
+  --gallery-name acg_corp_images \
   --location eastus
 
 # Step 3: Create Image Definition
-Write-Host "Creating image definition..." -ForegroundColor Cyan
-az sig image-definition create `
-  --resource-group rg-acg `
-  --gallery-name acg_corp_images `
-  --gallery-image-definition windows-iis-hardened `
-  --publisher MyCompany `
-  --offer WindowsServer `
-  --sku 2022-IIS `
-  --os-type Windows `
-  --os-state Generalized `
+echo "Creating image definition..."
+az sig image-definition create \
+  --resource-group rg-acg \
+  --gallery-name acg_corp_images \
+  --gallery-image-definition windows-iis-hardened \
+  --publisher MyCompany \
+  --offer WindowsServer \
+  --sku 2022-IIS \
+  --os-type Windows \
+  --os-state Generalized \
   --location eastus
 
 # Step 4: Get your subscription ID (you'll need this for the template)
-Write-Host "`nYour subscription ID:" -ForegroundColor Yellow
+echo ""
+echo "Your subscription ID:"
 az account show --query id -o tsv
 
-Write-Host "`nNow update the aib-template-windows-iis.json file with your subscription ID" -ForegroundColor Green
-Write-Host "Then create the AIB template resource with:" -ForegroundColor Green
-Write-Host "az image builder create --resource-group rg-aib-images --name aib-template-windows-iis --image-template aib-template-windows-iis.json" -ForegroundColor White
+echo ""
+echo "Now update the aib-template-windows-iis.json file with your subscription ID"
+echo "Then create the AIB template resource with:"
+echo "az image builder create --resource-group rg-aib-images --name aib-template-windows-iis --image-template aib-template-windows-iis.json"
 ```
 
 **Cleanup Script** (for resetting demo environment):
-```powershell
+```bash
+#!/bin/bash
 # Cleanup all demo resources
 az group delete --name rg-aib-images --yes --no-wait
 az group delete --name rg-acg --yes --no-wait
@@ -534,7 +538,7 @@ Before the demo, ensure you have:
 - ✅ Two monitors recommended (one for terminal, one for browser/Portal)
 
 **Demo-Specific Setup:**
-- ✅ Run `demo-commands.ps1` to create all infrastructure
+- ✅ Run `demo-setup.sh` to create all infrastructure
 - ✅ AIB template JSON file created and ready (see Part 1)
 - ✅ Pre-staged AIB build running or recently completed
 - ✅ At least one image version published in ACG
@@ -546,7 +550,7 @@ Before the demo, ensure you have:
 #### **Pre-Demo Setup Checklist**
 
 Before the customer call:
-- [ ] Run `demo-commands.ps1` to create infrastructure
+- [ ] Run `demo-setup.sh` to create infrastructure
 - [ ] Create AIB template JSON (use template above)
 - [ ] Pre-stage a completed build (or have one running)
 - [ ] Verify ACG has the image versions published
