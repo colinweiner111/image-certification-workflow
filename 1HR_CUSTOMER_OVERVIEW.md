@@ -552,7 +552,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ### Slide 4.2: Production Compliance Checklist (2 min)
 
-**For SLED/FedRAMP Customers:**
+**Compliance Notes:**
 
 - ✅ Production images require FedRAMP/NIST 800-53 alignment
 - ✅ GRC ticket retention: 7 years minimum
