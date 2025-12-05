@@ -2,7 +2,7 @@
 
 ---
 
-## SEGMENT 1: Welcome & Problem Statement
+## Welcome & Problem Statement
 
 ---
 
@@ -59,7 +59,7 @@ Continuous Rebuilds (Monthly or Triggered)
 
 ---
 
-## SEGMENT 2: Architecture & Key Concepts
+## Architecture & Key Concepts
 
 ### Slide 2.1: High-Level Workflow Diagram
 
@@ -196,7 +196,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-## SEGMENT 3: Build → Scan → Test → Approve Pipeline
+## Build → Scan → Test → Approve Pipeline
 
 ### Slide 3.1: Production vs. Dev/Test Requirements
 
@@ -511,7 +511,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-## SEGMENT 4: Production Requirements & Cost Management
+## Production Requirements & Cost Management
 
 ### Slide 4.1: Security Agent Strategy
 
@@ -593,7 +593,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-## SEGMENT 5: Anti-Patterns & Real-World Lessons (Bonus
+## Anti-Patterns & Real-World Lessons (Bonus)
 
 ### Slide 5.1: What NOT to Do
 
@@ -653,7 +653,7 @@ Compliance confidence
 
 ---
 
-## SEGMENT 6: Next Steps & Closing
+## Next Steps & Closing
 
 ### Slide 6.1: Immediate Action Items (Week 1)
 
@@ -761,7 +761,7 @@ Compliance confidence
 
 ## Appendix: Speaker Tips & Timekeeping
 
-| Segment | Duration | Flexibility |
+| Section | Duration | Flexibility |
 |---------|----------|------------|
 | **Welcome & Problem** | 5 min | Adjust if customer has deep questions |
 | **Architecture & Concepts** | 15 min | Skip demo if short on time (5 min savings) |
