@@ -246,11 +246,13 @@ Present each concept with a **What** + **Why** format:
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
+**Prerequisites**: Run the infrastructure setup script first (see setup section below for `demo-setup.sh`).
+
 ---
 
 #### **Part 1: Show the AIB Template**
 
-Open your AIB template JSON in VS Code:
+Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis.json`):
 
 ```json
 {
@@ -301,6 +303,11 @@ Open your AIB template JSON in VS Code:
   }
 }
 ```
+
+**Files Location**: All demo files are in the repo under `/demo-scripts/`:
+- `aib-template-windows-iis.json` - AIB template
+- `demo-setup.sh` - Infrastructure setup script
+- `cleanup.sh` - Cleanup script
 
 **Talking Point**: "This template is declarative, source-controlled, and repeatable. We can build this same image 100 times and get identical results."
 
