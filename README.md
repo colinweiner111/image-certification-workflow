@@ -6,6 +6,7 @@
 
 ## Table of Contents
 
+- [1HR Customer Overview – Live Demo & Presentation](./1HR_CUSTOMER_OVERVIEW.md)
 - [1. Purpose](#1-purpose)
   - [1.1 Key Concepts](#11-key-concepts)
 - [2. High-Level Workflow Stages](#2-high-level-workflow-stages)
