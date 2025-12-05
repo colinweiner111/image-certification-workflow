@@ -32,8 +32,6 @@
 ## 1. Purpose  
 This document outlines the end-to-end workflow for creating, certifying, publishing, and continuously updating hardened OS images across hybrid environments (Azure, AVS, VMware, Hyper‑V).  
 
-It also includes links to authoritative Microsoft documentation.
-
 ---
 
 ## 1.1 Key Concepts
