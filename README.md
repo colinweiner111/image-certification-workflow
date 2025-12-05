@@ -11,7 +11,7 @@
 - [2. High-Level Workflow Stages](#2-high-level-workflow-stages)
   - [2.1 Production vs Non-Production Build Requirements](#21-production-vs-non-production-build-requirements)
   - [2.2 Architecture Flow Diagram](#22-architecture-flow-diagram)
-- [POC - Hybrid OS Image Certification Workflow](./1HR_CUSTOMER_OVERVIEW.md)
+- [POC - Hybrid OS Image Certification Workflow](./POC-Hybrid-Image-Workshop.md)
 - [3. Workflow Details](#3-workflow-details)
   - [3.1 Initiation & Request](#31-initiation--request)
   - [3.2 Pre-Validation & Baseline Alignment](#32-pre‑validation--baseline-alignment)
