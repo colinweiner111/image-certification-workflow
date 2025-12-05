@@ -1,5 +1,5 @@
 
-# Hybrid OS Image Creation, Certification & Continuous Update Workflow
+# Azure Image Builder Image Creation, Certification & Continuous Update Workflow
 ### Using Azure Image Builder (AIB) + Azure Compute Gallery (ACG)
 
 ---
