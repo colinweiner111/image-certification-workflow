@@ -1,6 +1,6 @@
 ## POC - Hybrid Image Workshop
 
----## SEGMENT 1: Welcome & Problem Statement (5 min)
+---## SEGMENT 1: Welcome & Problem Statement
 
 ### Slide 1.1: Title Slide
 ```
@@ -38,7 +38,7 @@
 
 ---
 
-### Slide 1.3: The Solution (1 min)
+### Slide 1.3: The Solution
 
 **Declarative, Versioned, Auditable Images**
 
@@ -69,9 +69,9 @@ Continuous Rebuilds (Monthly or Triggered)
 
 ---
 
-## SEGMENT 2: Architecture & Key Concepts (15 min)
+## SEGMENT 2: Architecture & Key Concepts
 
-### Slide 2.1: High-Level Workflow Diagram (2 min)
+### Slide 2.1: High-Level Workflow Diagram
 
 Display the architecture from `README.md` → **Section 2.2**:
 
@@ -123,7 +123,7 @@ Display the architecture from `README.md` → **Section 2.2**:
 
 ---
 
-### Slide 2.2: Key Concepts — Deep Dive (8 min)
+### Slide 2.2: Key Concepts — Deep Dive
 
 **Reference**: `README.md` → **Section 1.1 (Key Concepts)**
 
@@ -182,7 +182,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 2.3: Why This Architecture Matters (2 min)
+### Slide 2.3: Why This Architecture Matters
 
 **Single Image, Multiple Environments:**
 - Build once in AIB template ✅
@@ -206,9 +206,9 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-## SEGMENT 3: Build → Scan → Test → Approve Pipeline (15 min)
+## SEGMENT 3: Build → Scan → Test → Approve Pipeline
 
-### Slide 3.1: Production vs. Dev/Test Requirements (3 min)
+### Slide 3.1: Production vs. Dev/Test Requirements
 
 **Reference**: `README.md` → **Section 2.1 (Production vs Non-Production)**
 
@@ -228,7 +228,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 3.2: Step-by-Step Pipeline Walkthrough (8 min)
+### Slide 3.2: Step-by-Step Pipeline Walkthrough
 
 **Reference**: `README.md` → **Section 3 (Workflow Details)**
 
@@ -245,13 +245,13 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Slide 3.3: Live Lab Demo — Windows Server with IIS (10 min)
+### Slide 3.3: Live Lab Demo — Windows Server with IIS
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
 ---
 
-#### **Part 1: Show the AIB Template (1 min)**
+#### **Part 1: Show the AIB Template**
 
 Open your AIB template JSON in VS Code:
 
@@ -309,7 +309,7 @@ Open your AIB template JSON in VS Code:
 
 ---
 
-#### **Part 2: Trigger the Build (2 min)**
+#### **Part 2: Trigger the Build**
 
 Run this in PowerShell:
 
@@ -337,7 +337,7 @@ az image builder show-runs `
 
 ---
 
-#### **Part 3: Verify Image in ACG (2 min)**
+#### **Part 3: Verify Image in ACG**
 
 Show the image published to the gallery:
 
@@ -365,7 +365,7 @@ az sig image-version show `
 
 ---
 
-#### **Part 4: Deploy VM from Gallery Image (2 min)**
+#### **Part 4: Deploy VM from Gallery Image**
 
 Create a VM using the gallery image:
 
@@ -397,7 +397,7 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 ---
 
-#### **Part 5: Update the Image & Redeploy (2 min)**
+#### **Part 5: Update the Image & Redeploy**
 
 Now update the image with a new version:
 
@@ -432,7 +432,7 @@ az vm list `
 
 ---
 
-#### **Part 6: Show Image Tattoo Query (1 min)**n+
+#### **Part 6: Show Image Tattoo Query**n+
 
 RDP into one of the VMs and query the image metadata:
 
@@ -521,9 +521,9 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-## SEGMENT 4: Production Requirements & Cost Management (15 min)
+## SEGMENT 4: Production Requirements & Cost Management
 
-### Slide 4.1: Security Agent Strategy (3 min)
+### Slide 4.1: Security Agent Strategy
 
 **Reference**: `README.md` → **Section 3.8 (Agent Management Strategy)**
 
@@ -542,7 +542,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.2: Production Compliance Checklist (2 min)
+### Slide 4.2: Production Compliance Checklist
 
 **Compliance Notes:**
 
@@ -560,7 +560,7 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.3: Cost Breakdown & Optimization (5 min)
+### Slide 4.3: Cost Breakdown & Optimization
 
 **Reference**: `README.md` → **Section 3.8 (Cost Management)**
 
@@ -587,23 +587,23 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Slide 4.4: Emergency Patching Procedure (3 min)
+### Slide 4.4: Emergency Patching Procedure
 
 **Reference**: `README.md` → **Section 3.8 (Emergency Patching)**
 
 **Scenario**: Critical CVE discovered in Windows Server 2022
 
 **Response Timeline:**
-1. **Identify Scope** (30 min): Query all VMs using vulnerable image
+1. **Identify Scope**: Query all VMs using vulnerable image
 2. **Emergency Build** (1 hour): Trigger AIB with expedited approval
 3. **Deploy Updated Image** (1 hour): Use VMSS rolling upgrade to apply new image
-4. **Verify Remediation** (30 min): Re-scan with Defender
+4. **Verify Remediation**: Re-scan with Defender
 
 **Total SLA**: **24 hours from discovery to remediated VMs**
 
 ---
 
-## SEGMENT 5: Anti-Patterns & Real-World Lessons (Bonus, 5–10 min)
+## SEGMENT 5: Anti-Patterns & Real-World Lessons (Bonus
 
 ### Slide 5.1: What NOT to Do
 
@@ -663,7 +663,7 @@ Compliance confidence
 
 ---
 
-## SEGMENT 6: Next Steps & Closing (10 min)
+## SEGMENT 6: Next Steps & Closing
 
 ### Slide 6.1: Immediate Action Items (Week 1)
 
@@ -746,7 +746,7 @@ Compliance confidence
 
 ---
 
-### Slide 6.5: Closing Remarks (1 min)
+### Slide 6.5: Closing Remarks
 
 **Recap:**
 > "We've covered the end-to-end workflow: from request through build, scan, test, approval, and distribution to Azure and hybrid environments. The key is **declarative, versioned, auditable images**—same hardening, same compliance, deployed everywhere."
@@ -785,7 +785,7 @@ Compliance confidence
 ## Backup Q&A Scripts
 
 **Q: "How long does a full build cycle take?"**
-A: AIB build (30–60 min) + Defender scan (24h automatic) + sandbox test (2–5 days) + approval (1–2 days) = **5 business days target**. Emergency patches can skip some testing and be done in 24 hours.
+A: AIB build + Defender scan (24h automatic) + sandbox test (2–5 days) + approval (1–2 days) = **5 business days target**. Emergency patches can skip some testing and be done in 24 hours.
 
 **Q: "Can we use the same image for Azure and on-prem?"**
 A: **Absolutely.** Build once in AIB, publish to ACG for Azure VMs, export as VHD for VMware/AVS/Hyper-V. Same customizers, same hardening, different deployment formats. See `README.md` → **Section 3.7 (VHD Export)**.
@@ -808,4 +808,7 @@ A: Yes. The GRC ticket triggers the build request. We log all steps (build, scan
 **Deck Version**: 1.0  
 **Supporting Doc**: `README.md`  
 **Next Review**: Post-customer-session feedback
+
+
+
 
