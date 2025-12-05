@@ -1,12 +1,10 @@
-````markdown
-# POC - Hybrid Image Workshop
+## POC - Hybrid Image Workshop
 ## Presentation Deck + Speaker Notes
 
 > **Audience**: C-level, Infrastructure/Security teams, DevOps leads  
 > **Duration**: 60 minutes  
 > **Delivery**: Mix of slides, live portal demo (optional), Q&A  
 > **Supporting Doc**: Reference `README.md` for detailed material
-
 ---
 
 ## SEGMENT 1: Welcome & Problem Statement (5 min)
@@ -818,4 +816,3 @@ A: Yes. The GRC ticket triggers the build request. We log all steps (build, scan
 **Supporting Doc**: `README.md`  
 **Next Review**: Post-customer-session feedback
 
-````
