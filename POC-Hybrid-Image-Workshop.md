@@ -246,13 +246,20 @@ Present each concept with a **What** + **Why** format:
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
-**Prerequisites**: Run the infrastructure setup script first (see setup section below for `demo-setup.sh`).
+**Demo Scripts Available**: 
+- **Option 1 - Manual**: Follow Part 1, Part 2, Part 3, etc. below to run each step individually and understand the workflow
+- **Option 2 - Automated**: Use the pre-built scripts in [`/demo-scripts/`](./demo-scripts/) to run infrastructure setup unattended
+  - [`demo-setup.sh`](./demo-scripts/demo-setup.sh) - Creates all Azure resources (resource groups, gallery, image definition)
+  - [`aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json) - AIB template with IIS customization
+  - [`cleanup.sh`](./demo-scripts/cleanup.sh) - Removes all demo resources
+
+**Prerequisites**: Run the infrastructure setup script first (see setup section below or use `demo-setup.sh`).
 
 ---
 
 #### **Part 1: Show the AIB Template**
 
-Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis.json`):
+Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis.json` or [`/demo-scripts/aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json)):
 
 ```json
 {
