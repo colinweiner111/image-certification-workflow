@@ -468,6 +468,38 @@ Customizers            : Install IIS, Deploy Custom Landing Page
 
 ---
 
+#### **Azure Prerequisites**
+
+Before the demo, ensure you have:
+
+**Azure Subscription & Permissions:**
+- ✅ Active Azure subscription with owner or contributor access
+- ✅ Ability to create Resource Groups, Storage Accounts, and Role Assignments
+- ✅ Azure Image Builder resource provider registered (`Microsoft.VirtualMachineImages`)
+- ✅ Compute Gallery (ACG) resource provider registered (`Microsoft.Compute`)
+
+**Required Azure Services:**
+- ✅ Azure Image Builder (AIB) — enabled in your subscription
+- ✅ Azure Compute Gallery (ACG) — create a gallery and image definition
+- ✅ Azure Storage Account — for AIB staging artifacts
+- ✅ Azure Virtual Network (VNet) — for demo VM deployment
+- ✅ Network Security Group (NSG) — with RDP (port 3389) and HTTPS (port 443) rules
+
+**CLI & Tools:**
+- ✅ Azure CLI installed and authenticated (`az login`)
+- ✅ PowerShell 7+ installed
+- ✅ VS Code with template files ready
+- ✅ Two monitors recommended (one for terminal, one for browser/Portal)
+
+**Demo-Specific Setup:**
+- ✅ AIB template JSON file created and ready (see Slide 3.3, Part 1)
+- ✅ Pre-staged AIB build running or recently completed
+- ✅ At least one image version published in ACG
+- ✅ Test VM deployed from gallery image (pre-built, running)
+- ✅ RDP credentials saved and tested
+
+---
+
 #### **Pre-Demo Setup Checklist**
 
 Before the customer call:
