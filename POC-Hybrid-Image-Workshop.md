@@ -563,6 +563,14 @@ az group delete --name rg-demo --yes --no-wait
 
 Before the demo, ensure you have:
 
+**Shell Environment:**
+- ✅ **Bash shell** - Use one of the following:
+  - **Azure Cloud Shell** (recommended - no local setup needed)
+  - **WSL (Windows Subsystem for Linux)** on Windows
+  - **Git Bash** on Windows
+  - **Native bash** on macOS/Linux
+- ✅ Azure CLI installed and authenticated (`az login`) - pre-installed in Cloud Shell
+
 **Azure Subscription & Permissions:**
 - ✅ Active Azure subscription with owner or contributor access
 - ✅ Ability to create Resource Groups, Storage Accounts, and Role Assignments
@@ -576,10 +584,10 @@ Before the demo, ensure you have:
 - ✅ Azure Virtual Network (VNet) — for demo VM deployment
 - ✅ Network Security Group (NSG) — with RDP (port 3389) and HTTPS (port 443) rules
 
-**CLI & Tools:**
-- ✅ Azure CLI installed and authenticated (`az login`)
-- ✅ PowerShell 7+ installed
-- ✅ VS Code with template files ready
+**Demo Tools:**
+- ✅ VS Code (optional but recommended for showing templates)
+- ✅ Web browser for testing deployed IIS landing page
+- ✅ RDP client for Windows VM access
 - ✅ Two monitors recommended (one for terminal, one for browser/Portal)
 
 **Demo-Specific Setup:**
