@@ -101,7 +101,7 @@ Different environments require different rigor levels. This table defines minimu
 - **Staging/QA**: Balance of testing thoroughness and approval process
 - **Production**: Maximum security, compliance, and change control
 
-**Compliance Notes for SLED Customers:**
+**Compliance Notes:**
 - Production images require FedRAMP/NIST 800-53 alignment
 - GRC ticket retention: 7 years minimum
 - All production builds must have tamper-proof audit trail
