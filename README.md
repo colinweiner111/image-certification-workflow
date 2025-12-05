@@ -1,6 +1,6 @@
 
-# Azure Image Builder: Enterprise Image Management for Hybrid Cloud
-### Automated creation, hardening, certification & continuous updates
+# Azure Image Builder: Build Once, Deploy Everywhere
+### Automated hardening, compliance scanning & zero-touch updates for hybrid cloud
 
 ---
 
