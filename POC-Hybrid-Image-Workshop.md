@@ -51,7 +51,7 @@ Continuous Rebuilds (Monthly or Triggered)
 **Business Value:**
 - ✅ **Compliance**: Full audit trail (GRC tickets, build logs, image metadata tattoos)
 - ✅ **Security**: Automated Defender scanning, CIS/NIST baselines, pre-installed agents
-- ✅ **Speed**: Monthly automated rebuilds, same-day emergency patches, repeatable process
+- ✅ **Speed**: Monthly automated rebuilds, same-day critical patches, repeatable process
 - ✅ **Cost**: Reusable across Azure + hybrid environments (VMware, AVS, on-prem)
 - ✅ **Reliability**: Immutable infrastructure, no configuration drift, rollback capability
 
@@ -211,7 +211,7 @@ Present each concept with a **What** + **Why** format:
 | **GRC approval** | Optional | Required with audit trail |
 | **Build frequency** | Daily/On-demand | Monthly (post Patch Tuesday) |
 | **Image retention** | 2 versions | 5+ versions |
-| **Emergency patch SLA** | Best effort | 24 hours |
+| **Critical patch SLA** | Best effort | 24 hours |
 
 **Key Insight:**  
 "You match your rigor to your environment risk. Dev is fast; production is bulletproof."
@@ -539,7 +539,7 @@ This gives 90% of the impact without waiting for a live build.
 - ✅ Production images require FedRAMP/NIST 800-53 alignment
 - ✅ GRC ticket retention: 7 years minimum
 - ✅ All production builds must have tamper-proof audit trail
-- ✅ Emergency patches require post-implementation review within 72 hours
+- ✅ Critical patches require post-implementation review within 72 hours
 - ✅ Image tattoo metadata must be queryable for audit compliance
 - ✅ Defender scan results reviewed by security team before release
 
@@ -577,9 +577,9 @@ This gives 90% of the impact without waiting for a live build.
 
 ---
 
-### Emergency Patching Procedure
+### Critical Patching Procedure
 
-**Reference**: `README.md` → **Section 3.8 (Emergency Patching)**
+**Reference**: `README.md` → **Section 3.8 (Critical Patching)**
 
 **Scenario**: Critical CVE discovered in Windows Server 2022
 
@@ -699,7 +699,7 @@ Compliance confidence
 - ✅ Monthly automated rebuilds scheduled
 - ✅ VMSS consuming ACG images
 - ✅ VHD export process validated (hybrid teams can consume)
-- ✅ Emergency patching procedure tested
+- ✅ Critical patching procedure tested
 
 **Metrics to Track:**
 - Build success rate (target: ≥95%)
@@ -775,7 +775,7 @@ Compliance confidence
 ## Backup Q&A Scripts
 
 **Q: "How long does a full build cycle take?"**
-A: AIB build + Defender scan (24h automatic) + sandbox test (2–5 days) + approval (1–2 days) = **5 business days target**. Emergency patches can skip some testing and be done in 24 hours.
+A: AIB build + Defender scan (24h automatic) + sandbox test (2–5 days) + approval (1–2 days) = **5 business days target**. Critical patches can skip some testing and be done in 24 hours.
 
 **Q: "Can we use the same image for Azure and on-prem?"**
 A: **Absolutely.** Build once in AIB, publish to ACG for Azure VMs, export as VHD for VMware/AVS/Hyper-V. Same customizers, same hardening, different deployment formats. See `README.md` → **Section 3.7 (VHD Export)**.

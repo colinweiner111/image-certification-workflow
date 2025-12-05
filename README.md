@@ -94,7 +94,7 @@ Different environments require different rigor levels. This table defines minimu
 | **Image Retention** | 2 versions | 3 versions | 5+ versions (compliance) |
 | **Replication Regions** | 1 (local) | 2 | 3+ (DR requirements) |
 | **Audit Logging** | Basic | Standard | Enhanced + SIEM Integration |
-| **Emergency Patching SLA** | Best Effort | 48 hours | 24 hours |
+| **Critical Patching SLA** | Best Effort | 48 hours | 24 hours |
 
 **Key Differences:**
 - **Dev/Test**: Speed and iteration over security rigor
@@ -105,7 +105,7 @@ Different environments require different rigor levels. This table defines minimu
 - Production images require FedRAMP/NIST 800-53 alignment
 - GRC ticket retention: 7 years minimum
 - All production builds must have tamper-proof audit trail
-- Emergency patches require post-implementation review within 72 hours
+- Critical patches require post-implementation review within 72 hours
 
 ---
 
@@ -734,10 +734,10 @@ az sig image-version delete \
    - Use B-series burstable VMs for small images
    - Use D-series for complex builds with many customizers
 
-### Emergency Patching Procedures
+### Critical Patching Procedures
 **Critical Vulnerability Response:**
 1. **Identify Scope**: Query all VMs using vulnerable image version
-2. **Emergency Build**: Trigger AIB with expedited approval
+2. **Critical Build**: Trigger AIB with expedited approval
 3. **Deploy Updated Image**: Use VM extension or VMSS rolling upgrade
 4. **Verify Remediation**: Re-scan with Defender
 
