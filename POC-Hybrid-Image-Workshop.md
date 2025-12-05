@@ -315,22 +315,33 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 
 #### **Part 2: Trigger the Build**
 
-Run this in PowerShell:
+**Manual Steps:**
 
-```powershell
-# Trigger AIB build
-az image builder run `
-  --resource-group rg-aib-images `
-  --name aib-template-windows-iis `
+1. **Create the AIB template resource** (first time only):
+```bash
+az image builder create \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
+  --image-template aib-template-windows-iis.json
+```
+
+2. **Trigger the build**:
+```bash
+az image builder run \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
   --no-wait
 
-Write-Host "Build started. Monitoring progress..."
+echo "Build started. Monitoring progress..."
+```
 
+3. **Check build status**:
+```bash
 # Wait for build to complete (typically 45-90 minutes)
 # For demo purposes, show the status command
-az image builder show-runs `
-  --resource-group rg-aib-images `
-  --name aib-template-windows-iis `
+az image builder show-runs \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
   --query "[0].[runState, runOutputName]" -o table
 ```
 
@@ -343,22 +354,24 @@ az image builder show-runs `
 
 #### **Part 3: Verify Image in ACG**
 
-Show the image published to the gallery:
+**Manual Steps:**
 
-```powershell
-# List ACG image versions
-az sig image-version list `
-  --resource-group rg-acg `
-  --gallery-name acg_corp_images `
-  --gallery-image-definition windows-iis-hardened `
+1. **List all image versions**:
+```bash
+az sig image-version list \
+  --resource-group rg-acg \
+  --gallery-name acg_corp_images \
+  --gallery-image-definition windows-iis-hardened \
   --output table
+```
 
-# Show image metadata (tattoo)
-az sig image-version show `
-  --resource-group rg-acg `
-  --gallery-name acg_corp_images `
-  --gallery-image-definition windows-iis-hardened `
-  --gallery-image-version 1.0.1 `
+2. **Show image metadata (tattoo)**:
+```bash
+az sig image-version show \
+  --resource-group rg-acg \
+  --gallery-name acg_corp_images \
+  --gallery-image-definition windows-iis-hardened \
+  --gallery-image-version 1.0.1 \
   --output json | jq '.tags'
 ```
 
@@ -371,28 +384,30 @@ az sig image-version show `
 
 #### **Part 4: Deploy VM from Gallery Image**
 
-Create a VM using the gallery image:
+**Manual Steps:**
 
-```powershell
-# Deploy VM from ACG image
-az vm create `
-  --resource-group rg-demo `
-  --name vm-iis-demo-001 `
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1" `
-  --size Standard_B2s `
-  --admin-username azureuser `
-  --admin-password "ComplexPassword123!" `
-  --nsg-rule RDP `
+1. **Deploy VM from ACG image**:
+```bash
+az vm create \
+  --resource-group rg-demo \
+  --name vm-iis-demo-001 \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1" \
+  --size Standard_B2s \
+  --admin-username azureuser \
+  --admin-password "ComplexPassword123!" \
+  --nsg-rule RDP \
   --public-ip-sku Standard
+```
 
-# Get the public IP
-$publicIp = az vm show `
-  --resource-group rg-demo `
-  --name vm-iis-demo-001 `
-  --show-details `
-  --query publicIps -o tsv
+2. **Get the public IP**:
+```bash
+publicIp=$(az vm show \
+  --resource-group rg-demo \
+  --name vm-iis-demo-001 \
+  --show-details \
+  --query publicIps -o tsv)
 
-Write-Host "VM deployed! Access it at: http://$publicIp"
+echo "VM deployed! Access it at: http://$publicIp"
 ```
 
 **Demo**: Open a browser and navigate to the public IP to show the custom landing page is already there (no post-deployment installation needed).
@@ -403,29 +418,42 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 #### **Part 5: Update the Image & Redeploy**
 
-Now update the image with a new version:
+**Manual Steps:**
 
-```powershell
-# Edit the template: update version to 1.0.2 and change landing page text
-# (show quick edit in VS Code)
+1. **Edit the template** - Update version to 1.0.2 and change landing page text (show quick edit in VS Code)
 
-# Trigger new build
-az image builder run `
-  --resource-group rg-aib-images `
-  --name aib-template-windows-iis `
+2. **Update the AIB template resource**:
+```bash
+az image builder update \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
+  --image-template aib-template-windows-iis.json
+```
+
+3. **Trigger new build**:
+```bash
+az image builder run \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
   --no-wait
+```
 
-# Once complete, deploy NEW version to VMSS or new VM
-az vm create `
-  --resource-group rg-demo `
-  --name vm-iis-demo-002 `
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.2" `
-  --size Standard_B2s
+4. **Once complete, deploy NEW version**:
+```bash
+az vm create \
+  --resource-group rg-demo \
+  --name vm-iis-demo-002 \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.2" \
+  --size Standard_B2s \
+  --admin-username azureuser \
+  --admin-password "ComplexPassword123!"
+```
 
-# Show both VMs running, each with their own version
-az vm list `
-  --resource-group rg-demo `
-  --show-details `
+5. **Show both VMs running**:
+```bash
+az vm list \
+  --resource-group rg-demo \
+  --show-details \
   --query "[].{Name:name, PublicIP:publicIps}" -o table
 ```
 
@@ -436,9 +464,12 @@ az vm list `
 
 ---
 
-#### **Part 6: Show Image Tattoo Query**n+
+#### **Part 6: Show Image Tattoo Query**
 
-RDP into one of the VMs and query the image metadata:
+**Manual Steps:**
+
+1. **RDP into one of the VMs**
+2. **Query the image metadata from within the VM**:
 
 ```powershell
 # From within the VM (via RDP)
