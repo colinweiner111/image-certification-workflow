@@ -1,6 +1,8 @@
 ## POC - Hybrid Image Workshop
 
----## SEGMENT 1: Welcome & Problem Statement
+---
+
+## SEGMENT 1: Welcome & Problem Statement
 
 ### Slide 1.1: Title Slide
 ```
