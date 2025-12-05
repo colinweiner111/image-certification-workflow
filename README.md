@@ -319,10 +319,10 @@ az sig image-version update \
 
 ### Microsoft Docs  
 - Azure Image Builder Overview: https://learn.microsoft.com/azure/virtual-machines/image-builder-overview  
-- Image Customizers: https://learn.microsoft.com/azure/virtual-machines/image-builder-json  
+- Image Customizers: https://learn.microsoft.com/azure/virtual-machines/linux/image-builder-json  
 - AIB Security/Isolation Model: https://learn.microsoft.com/azure/virtual-machines/security-isolated-image-builds-image-builder  
 - AIB Image Triggers: https://learn.microsoft.com/azure/virtual-machines/image-builder-triggers-how-to  
-- AIB Troubleshooting: https://learn.microsoft.com/azure/virtual-machines/image-builder-troubleshoot  
+- AIB Troubleshooting: https://learn.microsoft.com/azure/virtual-machines/linux/image-builder-troubleshoot  
 
 ---
 
@@ -345,8 +345,8 @@ Once the image is published into Azure Compute Gallery:
 - Qualys  
 
 ### Microsoft Docs  
-- Defender Image Scanning: https://learn.microsoft.com/azure/defender-for-cloud/image-scanning  
-- Compute Gallery Image Scanning Architecture: https://learn.microsoft.com/azure/defender-for-cloud/image-scanning-concepts  
+- Defender Image Scanning: https://learn.microsoft.com/azure/defender-for-cloud/agentless-vulnerability-assessment-azure  
+- Container Registry Image Scanning: https://learn.microsoft.com/azure/container-registry/scan-images-defender  
 
 ---
 
@@ -472,7 +472,7 @@ $ImageInventory | Export-Csv -Path "vm-image-inventory.csv" -NoTypeInformation
 - ACG image metadata: Retained for image lifetime
 
 ### Microsoft Docs  
-- AIB Logging: https://learn.microsoft.com/azure/virtual-machines/image-builder-troubleshoot  
+- AIB Logging: https://learn.microsoft.com/azure/virtual-machines/linux/image-builder-troubleshoot  
 - Azure Policy for VMs: https://learn.microsoft.com/azure/governance/policy/samples/built-in-policies#compute  
 - Azure Monitor Logs: https://learn.microsoft.com/azure/azure-monitor/logs/data-retention-archive  
 
