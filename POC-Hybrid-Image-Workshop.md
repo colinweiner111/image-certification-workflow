@@ -2,10 +2,6 @@
 
 ---
 
-## Welcome & Problem Statement
-
----
-
 ### The Challenge
 
 **Current Reality:**
