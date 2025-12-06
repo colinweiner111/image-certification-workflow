@@ -2,7 +2,7 @@
 
 ---
 
-### The Challenge
+### Golden Image Challenges
 
 **Current Reality:**
 - ❌ Manual image builds on VMs → no audit trail, no versioning
