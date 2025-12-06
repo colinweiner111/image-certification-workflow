@@ -283,12 +283,19 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 {
   "type": "Microsoft.VirtualMachineImages/imageTemplates",
   "name": "aib-template-windows-iis",
+  "location": "eastus",
+  "identity": {
+    "type": "UserAssigned",
+    "userAssignedIdentities": {
+      "/subscriptions/{sub}/resourcegroups/rg-aib-images/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aib-identity": {}
+    }
+  },
   "properties": {
     "source": {
       "type": "PlatformImage",
       "publisher": "MicrosoftWindowsServer",
       "offer": "WindowsServer",
-      "sku": "2022-datacenter",
+      "sku": "2022-datacenter-g2",
       "version": "latest"
     },
     "customize": [
@@ -321,8 +328,12 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
     ],
     "distribute": [
       {
-        "type": "ManagedImage",
-        "imageId": "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1"
+        "type": "SharedImage",
+        "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1",
+        "runOutputName": "windows-iis-hardened-1.0.1",
+        "replicationRegions": [
+          "eastus"
+        ]
       }
     ]
   }
@@ -334,11 +345,51 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 - `demo-setup.sh` - Infrastructure setup script
 - `cleanup.sh` - Cleanup script
 
+**Key Template Requirements**:
+- ✅ `location` field is required
+- ✅ `identity` with user-assigned managed identity is required
+- ✅ Source image SKU must match image definition Hyper-V generation (use `2022-datacenter-g2` for Gen2)
+- ✅ `distribute` must use `SharedImage` type (not `ManagedImage`) for ACG
+- ✅ Replace `{sub}` with your actual subscription ID
+
 **Talking Point**: "This template is declarative, source-controlled, and repeatable. We can build this same image 100 times and get identical results."
 
 ---
 
 #### **Part 2: Trigger the Build**
+
+**Prerequisites** (if not using demo-setup.sh):
+
+1. **Create managed identity and grant permissions**:
+```bash
+# Create identity
+az identity create \
+  --resource-group rg-aib-images \
+  --name aib-identity
+
+# Get the client ID
+clientId=$(az identity show \
+  --resource-group rg-aib-images \
+  --name aib-identity \
+  --query clientId -o tsv)
+
+# Grant Contributor access to ACG resource group
+az role assignment create \
+  --assignee $clientId \
+  --role "Contributor" \
+  --scope "/subscriptions/{sub}/resourceGroups/rg-acg"
+```
+
+2. **Update template with your subscription ID**:
+```bash
+# Get subscription ID
+subId=$(az account show --query id -o tsv)
+echo "Your subscription ID: $subId"
+
+# Manually replace {sub} in aib-template-windows-iis.json
+# Or use sed:
+sed "s/{sub}/$subId/g" aib-template-windows-iis.json > aib-template-windows-iis-updated.json
+```
 
 **Manual Steps:**
 
@@ -348,6 +399,11 @@ az image builder create \
   --resource-group rg-aib-images \
   --name aib-template-windows-iis \
   --image-template aib-template-windows-iis.json
+```
+
+**Note**: If you get a conflict error about template already existing, delete it first:
+```bash
+az image builder delete --resource-group rg-aib-images --name aib-template-windows-iis
 ```
 
 2. **Trigger the build**:
@@ -362,8 +418,20 @@ echo "Build started. Monitoring progress..."
 
 3. **Check build status**:
 ```bash
-# Wait for build to complete (typically 45-90 minutes)
-# For demo purposes, show the status command
+# Check current run status
+az image builder show \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis \
+  --query "lastRunStatus"
+
+# Expected output during build:
+# {
+#   "runState": "Running",
+#   "runSubState": "Building",
+#   "startTime": "2025-12-06T00:13:03.075574+00:00"
+# }
+
+# Check all historical runs
 az image builder show-runs \
   --resource-group rg-aib-images \
   --name aib-template-windows-iis \
