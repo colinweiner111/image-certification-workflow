@@ -646,13 +646,6 @@ az sig image-version show \
 **Total Demo Time**: 10 minutes  
 **Audience Impact**: High—shows real-world hardening workflow, reproducibility, versioning, and audit trail all in action.
 
----
-
-**Created**: December 4, 2025  
-**Deck Version**: 1.0  
-**Supporting Doc**: `README.md`  
-**Next Review**: Post-customer-session feedback
-
 **Resource Group Architecture:**
 
 The demo uses three separate resource groups for security and lifecycle management:
@@ -947,7 +940,3 @@ Compliance confidence
 **Deck Version**: 1.0  
 **Supporting Doc**: `README.md`  
 **Next Review**: Post-customer-session feedback
-
-
-
-
