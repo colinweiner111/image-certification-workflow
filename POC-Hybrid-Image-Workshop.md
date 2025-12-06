@@ -595,29 +595,51 @@ az vm list \
 
 ---
 
-#### **Part 6: Show Image Tattoo Query**
+#### **Part 6: Show Image Tattoo (Provenance Metadata)**
 
 **Manual Steps:**
 
-1. **RDP into one of the VMs**
-2. **Query the image metadata from within the VM**:
+1. **Query the image version metadata from the Azure Compute Gallery**:
 
-```powershell
-# From within the VM (via RDP)
-Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Azure Image Builder"
+```bash
+# Show the image tattoo (provenance metadata) for version 1.0.1
+az sig image-version show \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --gallery-image-definition windows-iis-hardened \
+  --gallery-image-version 1.0.1 \
+  --query "{Name:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId}" \
+  --output json
 ```
 
-**Output example:**:
-```
-BuildId                : 20251204-001
-TemplateName           : aib-template-windows-iis
-SourceImage            : MicrosoftWindowsServer/WindowsServer/2022-datacenter
-BuildDate              : 2025-12-04T14:32:15Z
-CustomizerCount        : 2
-Customizers            : Install IIS, Deploy Custom Landing Page
+**Output example**:
+```json
+{
+  "CorrelationId": "5d49a6f3-7195-4df5-99c3-edee245be4b6",
+  "Name": "1.0.1",
+  "PublishedDate": "2025-12-06T01:18:37.5837189+00:00",
+  "SourceImage": "PlatformImage MicrosoftWindowsServer::WindowsServer::2022-datacenter-g2::latest (20348.4405.251112)"
+}
 ```
 
-**Talking Point**: "This metadata is embedded in every VM deployed from this image. During a security audit, we can prove exactly which image is on which VM and when it was built."
+2. **Show all tags for complete audit trail**:
+
+```bash
+az sig image-version show \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --gallery-image-definition windows-iis-hardened \
+  --gallery-image-version 1.0.1 \
+  --query "tags" \
+  --output json
+```
+
+**Talking Points:**
+- "The image tattoo is automatically embedded by Azure Image Builder in the gallery image version tags."
+- "This shows the exact source image (Windows Server 2022 build 20348.4405), publication timestamp, and unique correlation ID."
+- "During security audits, we can prove the complete provenance chain: source image → AIB template → gallery version → deployed VM."
+- "If a CVE is discovered in build 20348.4405, we can instantly query which images and VMs are affected."
+- "Full compliance with audit requirements - immutable metadata that can't be tampered with."
 
 ---
 
