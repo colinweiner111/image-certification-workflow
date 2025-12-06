@@ -282,15 +282,19 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 ```json
 {
   "type": "Microsoft.VirtualMachineImages/imageTemplates",
-  "name": "aib-template-windows-iis",
-  "location": "eastus",
+  "name": "aib-template-windows-iis-wus3",
+  "location": "westus3",
   "identity": {
     "type": "UserAssigned",
     "userAssignedIdentities": {
-      "/subscriptions/{sub}/resourcegroups/rg-aib-images/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aib-identity": {}
+      "/subscriptions/{sub}/resourcegroups/rg-aib-images-wus3/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aib-identity-wus3": {}
     }
   },
   "properties": {
+    "buildTimeoutInMinutes": 120,
+    "vmProfile": {
+      "vmSize": "Standard_B2as_v2"
+    },
     "source": {
       "type": "PlatformImage",
       "publisher": "MicrosoftWindowsServer",
@@ -311,17 +315,12 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
         "type": "PowerShell",
         "name": "Deploy Custom Landing Page",
         "inline": [
-          "$html = @'",
-          "<!DOCTYPE html>",
-          "<html>",
-          "<head><title>Welcome</title></head>",
-          "<body style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; font-family: Arial;'>",
-          "<h1>Welcome to Our Hardened Windows Server</h1>",
-          "<p>This image was built with Azure Image Builder</p>",
-          "<p>Build Version: 1.0.1 | Built: 2025-12-04</p>",
-          "</body>",
-          "</html>",
-          "'@",
+          "$html = '<!DOCTYPE html><html><head><title>Welcome</title></head>'",
+          "$html += '<body style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; font-family: Arial;\">'",
+          "$html += '<h1>Welcome to Our Hardened Windows Server</h1>'",
+          "$html += '<p>This image was built with Azure Image Builder</p>'",
+          "$html += '<p>Build Version: 1.0.1 | Built: 2025-12-05 | Region: West US 3</p>'",
+          "$html += '</body></html>'",
           "Set-Content -Path 'C:\\inetpub\\wwwroot\\index.html' -Value $html"
         ]
       }
@@ -329,10 +328,10 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
     "distribute": [
       {
         "type": "SharedImage",
-        "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1",
+        "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1",
         "runOutputName": "windows-iis-hardened-1.0.1",
         "replicationRegions": [
-          "eastus"
+          "westus3"
         ]
       }
     ]
@@ -396,21 +395,21 @@ sed "s/{sub}/$subId/g" aib-template-windows-iis.json > aib-template-windows-iis-
 1. **Create the AIB template resource** (first time only):
 ```bash
 az image builder create \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
-  --image-template aib-template-windows-iis.json
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
+  --image-template aib-template-windows-iis-wus3.json
 ```
 
 **Note**: If you get a conflict error about template already existing, delete it first:
 ```bash
-az image builder delete --resource-group rg-aib-images --name aib-template-windows-iis
+az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
 2. **Trigger the build**:
 ```bash
 az image builder run \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
   --no-wait
 
 echo "Build started. Monitoring progress..."
@@ -420,21 +419,21 @@ echo "Build started. Monitoring progress..."
 ```bash
 # Check current run status
 az image builder show \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
   --query "lastRunStatus"
 
 # Expected output during build:
 # {
 #   "runState": "Running",
 #   "runSubState": "Building",
-#   "startTime": "2025-12-06T00:13:03.075574+00:00"
+#   "startTime": "2025-12-06T00:56:01.816893+00:00"
 # }
 
 # Check all historical runs
 az image builder show-runs \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
   --query "[0].[runState, runOutputName]" -o table
 ```
 
@@ -452,8 +451,8 @@ az image builder show-runs \
 1. **List all image versions**:
 ```bash
 az sig image-version list \
-  --resource-group rg-acg \
-  --gallery-name acg_corp_images \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
   --gallery-image-definition windows-iis-hardened \
   --output table
 ```
@@ -461,8 +460,8 @@ az sig image-version list \
 2. **Show image metadata (tattoo)**:
 ```bash
 az sig image-version show \
-  --resource-group rg-acg \
-  --gallery-name acg_corp_images \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
   --gallery-image-definition windows-iis-hardened \
   --gallery-image-version 1.0.1 \
   --output json | jq '.tags'
@@ -482,10 +481,10 @@ az sig image-version show \
 1. **Deploy VM from ACG image**:
 ```bash
 az vm create \
-  --resource-group rg-demo \
+  --resource-group rg-demo-wus3 \
   --name vm-iis-demo-001 \
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1" \
-  --size Standard_B2s \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1" \
+  --size Standard_B2as_v2 \
   --admin-username azureuser \
   --admin-password "ComplexPassword123!" \
   --nsg-rule RDP \
@@ -495,7 +494,7 @@ az vm create \
 2. **Get the public IP**:
 ```bash
 publicIp=$(az vm show \
-  --resource-group rg-demo \
+  --resource-group rg-demo-wus3 \
   --name vm-iis-demo-001 \
   --show-details \
   --query publicIps -o tsv)
@@ -519,30 +518,30 @@ echo "VM deployed! Access it at: http://$publicIp"
 ```bash
 # AIB doesn't support updates - must delete and recreate
 az image builder delete \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3
 
 az image builder create \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
-  --image-template aib-template-windows-iis.json
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
+  --image-template aib-template-windows-iis-wus3.json
 ```
 
 3. **Trigger new build**:
 ```bash
 az image builder run \
-  --resource-group rg-aib-images \
-  --name aib-template-windows-iis \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
   --no-wait
 ```
 
 4. **Once complete, deploy NEW version**:
 ```bash
 az vm create \
-  --resource-group rg-demo \
+  --resource-group rg-demo-wus3 \
   --name vm-iis-demo-002 \
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.2" \
-  --size Standard_B2s \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
+  --size Standard_B2as_v2 \
   --admin-username azureuser \
   --admin-password "ComplexPassword123!"
 ```
@@ -601,9 +600,9 @@ The demo uses three separate resource groups for security and lifecycle manageme
 
 | Resource Group | Purpose | Contains |
 |---------------|---------|----------|
-| **rg-aib-images** | Build infrastructure | AIB templates, managed identities, build VMs (temporary) |
-| **rg-acg** | Image storage | Azure Compute Gallery, image definitions, image versions |
-| **rg-demo** | Test deployments | VMs deployed from gallery for testing/validation |
+| **rg-aib-images-wus3** | Build infrastructure | AIB templates, managed identities, build VMs (temporary) |
+| **rg-acg-wus3** | Image storage | Azure Compute Gallery, image definitions, image versions |
+| **rg-demo-wus3** | Test deployments | VMs deployed from gallery for testing/validation |
 
 **Why separate resource groups?**
 - ✅ **Security**: Different teams get different permissions (developers read gallery, only DevOps triggers builds)
@@ -622,29 +621,31 @@ Create a `demo-setup.sh` script to automate all infrastructure creation:
 
 # Step 1: Create Resource Groups
 echo "Creating resource groups..."
-az group create --name rg-aib-images --location eastus
-az group create --name rg-acg --location eastus
-az group create --name rg-demo --location eastus
+az group create --name rg-aib-images-wus3 --location westus3
+az group create --name rg-acg-wus3 --location westus3
+az group create --name rg-demo-wus3 --location westus3
 
 # Step 2: Create Azure Compute Gallery
 echo "Creating Azure Compute Gallery..."
 az sig create \
-  --resource-group rg-acg \
-  --gallery-name acg_corp_images \
-  --location eastus
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --location westus3
 
 # Step 3: Create Image Definition
 echo "Creating image definition..."
 az sig image-definition create \
-  --resource-group rg-acg \
-  --gallery-name acg_corp_images \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
   --gallery-image-definition windows-iis-hardened \
   --publisher MyCompany \
   --offer WindowsServer \
   --sku 2022-IIS \
   --os-type Windows \
   --os-state Generalized \
-  --location eastus
+  --hyper-v-generation V2 \
+  --features SecurityType=TrustedLaunch \
+  --location westus3
 
 # Step 4: Get your subscription ID (you'll need this for the template)
 echo ""
@@ -652,18 +653,18 @@ echo "Your subscription ID:"
 az account show --query id -o tsv
 
 echo ""
-echo "Now update the aib-template-windows-iis.json file with your subscription ID"
+echo "Now update the aib-template-windows-iis-wus3.json file with your subscription ID"
 echo "Then create the AIB template resource with:"
-echo "az image builder create --resource-group rg-aib-images --name aib-template-windows-iis --image-template aib-template-windows-iis.json"
+echo "az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json"
 ```
 
 **Cleanup Script** (for resetting demo environment):
 ```bash
 #!/bin/bash
 # Cleanup all demo resources
-az group delete --name rg-aib-images --yes --no-wait
-az group delete --name rg-acg --yes --no-wait
-az group delete --name rg-demo --yes --no-wait
+az group delete --name rg-aib-images-wus3 --yes --no-wait
+az group delete --name rg-acg-wus3 --yes --no-wait
+az group delete --name rg-demo-wus3 --yes --no-wait
 ```
 
 ---
