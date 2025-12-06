@@ -503,6 +503,129 @@ $ImageInventory | Export-Csv -Path "vm-image-inventory.csv" -NoTypeInformation
 | **Managed Image Versions** | Azure DevOps, VMSS, CI/CD | Versioning, replication, lifecycle, Defender scanning |
 | **VHD (Storage Account)** | AVS, VMware, Hyper‑V, AWS | Portable raw disk, no versioning |
 
+### Distribution Target Types in Azure Image Builder
+
+Azure Image Builder supports three distribution target types in the `distribute` section of your template:
+
+#### 1. Azure Compute Gallery (SharedImage) - **RECOMMENDED**
+Most common and recommended approach for enterprise environments.
+
+**Capabilities:**
+- **Versioning**: Semantic versioning support (e.g., 1.0.1, 1.0.2)
+- **Multi-region replication**: Automatically replicate to multiple Azure regions
+- **Cross-subscription/tenant sharing**: Share images with other subscriptions or tenants via RBAC
+- **Version lifecycle management**: Mark versions as "latest", set end-of-life dates, exclude from latest
+- **Security integration**: Automatic Defender for Cloud scanning
+- **Hyper-V generation support**: Gen1/Gen2 with TrustedLaunch and ConfidentialVM capabilities
+- **RBAC-controlled access**: Fine-grained permissions for image consumption
+
+**Use Cases:**
+- Production enterprise deployments
+- Multi-region applications requiring consistent images
+- DevOps pipelines requiring versioned artifacts
+- Compliance scenarios requiring audit trails
+
+**Template Example:**
+```json
+"distribute": [
+  {
+    "type": "SharedImage",
+    "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis-hardened/versions/1.0.1",
+    "runOutputName": "windows-iis-hardened-1.0.1",
+    "replicationRegions": ["westus3", "eastus2", "northeurope"]
+  }
+]
+```
+
+#### 2. Managed Image (ManagedImage)
+Creates a traditional Azure Managed Image in a specific resource group.
+
+**Capabilities:**
+- Simpler configuration than Compute Gallery
+- Region-specific (no automatic multi-region distribution)
+- No built-in versioning or lifecycle management
+- Stored as a standalone resource in a resource group
+
+**Limitations:**
+- Being de-emphasized by Microsoft in favor of Compute Gallery
+- Limited support for modern features (TrustedLaunch, Gen2)
+- Harder to manage at scale
+- No automatic replication
+
+**Use Cases:**
+- Simple, single-region scenarios
+- Proof-of-concept or development environments
+- Legacy workflows not yet migrated to Compute Gallery
+
+**Template Example:**
+```json
+"distribute": [
+  {
+    "type": "ManagedImage",
+    "imageId": "/subscriptions/{sub}/resourceGroups/rg-images/providers/Microsoft.Compute/images/windows-2022-basic",
+    "location": "westus3",
+    "runOutputName": "windows-2022-basic"
+  }
+]
+```
+
+#### 3. VHD (Virtual Hard Disk)
+Exports the image as a VHD file to an Azure Storage Account.
+
+**Capabilities:**
+- Portable disk format compatible with multiple platforms
+- Can be downloaded locally for offline use
+- Supports hybrid cloud and on-premises scenarios
+
+**Limitations:**
+- Not directly deployable in Azure (must be imported first)
+- No versioning or lifecycle management
+- Manual management required
+- Additional storage costs
+
+**Use Cases:**
+- Hybrid scenarios (Azure Stack, on-premises VMware/Hyper-V)
+- Migration to other cloud providers (AWS, GCP)
+- Archival and disaster recovery
+- Air-gapped environments requiring offline images
+
+**Template Example:**
+```json
+"distribute": [
+  {
+    "type": "VHD",
+    "runOutputName": "windows-iis-vhd-export"
+  }
+]
+```
+
+#### Multiple Distribution Targets
+A single AIB template can distribute to multiple targets simultaneously. This is useful for backup, hybrid scenarios, or multi-cloud strategies.
+
+**Example - Compute Gallery + VHD Backup:**
+```json
+"distribute": [
+  {
+    "type": "SharedImage",
+    "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg/providers/Microsoft.Compute/galleries/acg_corp_images/images/windows-iis/versions/1.0.1",
+    "runOutputName": "windows-iis-acg",
+    "replicationRegions": ["westus3", "eastus2"]
+  },
+  {
+    "type": "VHD",
+    "runOutputName": "windows-iis-vhd-backup"
+  }
+]
+```
+
+**Best Practice Recommendations:**
+- **Use Azure Compute Gallery (SharedImage)** for all Azure-native deployments
+- **Use VHD** only for hybrid/on-premises scenarios or archival
+- **Avoid ManagedImage** for new projects - migrate to Compute Gallery
+- **Enable multi-region replication** for disaster recovery and global deployments
+- **Use semantic versioning** (major.minor.patch) for image versions
+- **Tag versions** with metadata (environment, compliance level, build date)
+
 ### Multi-Tenancy & Access Control
 **Image Sharing Across Subscriptions:**
 ```powershell
