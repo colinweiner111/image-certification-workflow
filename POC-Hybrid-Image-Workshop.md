@@ -931,12 +931,3 @@ Monthly rebuilds keep everything current
     ↓
 Compliance confidence
 ```
-
----
-
----
-
-**Created**: December 4, 2025  
-**Deck Version**: 1.0  
-**Supporting Doc**: `README.md`  
-**Next Review**: Post-customer-session feedback
