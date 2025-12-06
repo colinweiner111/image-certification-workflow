@@ -199,7 +199,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-### Live Lab Demo — Windows Server with IIS
+### Demo — Windows Server with IIS
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
