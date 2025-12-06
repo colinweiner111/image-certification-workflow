@@ -44,7 +44,7 @@ Deploy to Azure / Export to Hybrid
 Continuous Rebuilds (Monthly or Triggered)
 ```
 
-**Business Value:**
+**What You Get:**
 - ✅ **Compliance**: Full audit trail (GRC tickets, build logs, image metadata tattoos)
 - ✅ **Security**: Automated Defender scanning, CIS/NIST baselines, pre-installed agents
 - ✅ **Speed**: Monthly automated rebuilds, same-day critical patches, repeatable process
