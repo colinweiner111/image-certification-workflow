@@ -308,7 +308,8 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
         "name": "Install IIS",
         "inline": [
           "Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature",
-          "Install-WindowsFeature -Name Web-Asp-Net45"
+          "Install-WindowsFeature -Name Web-Asp-Net45",
+          "Set-Service -Name W3SVC -StartupType Automatic"
         ]
       },
       {
@@ -512,7 +513,11 @@ echo "VM deployed! Access it at: http://$publicIp"
 
 **Manual Steps:**
 
-1. **Edit the template** - Update version to 1.0.2 and change landing page text (show quick edit in VS Code)
+1. **Edit the template** - Update version to 1.0.2 and change landing page style:
+   - Change gradient colors from purple to orange/red (`#ff6b6b` to `#ff8e53`)
+   - Add ASCII art logo
+   - Update version text to "1.0.2"
+   - **Important**: Avoid using emoji characters in PowerShell inline scripts (UTF-8 encoding issues)
 
 2. **Delete the old template and recreate with updated JSON**:
 ```bash
@@ -533,31 +538,60 @@ az image builder run \
   --resource-group rg-aib-images-wus3 \
   --name aib-template-windows-iis-wus3 \
   --no-wait
+
+# Monitor build progress
+az image builder show \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-template-windows-iis-wus3 \
+  --query "lastRunStatus"
 ```
 
-4. **Once complete, deploy NEW version**:
+4. **Once complete (Succeeded), verify in gallery**:
+```bash
+az sig image-version list \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --gallery-image-definition windows-iis-hardened \
+  --output table
+```
+
+5. **Deploy NEW VM from version 1.0.2**:
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
-  --name vm-iis-demo-002 \
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
-  --size Standard_B2as_v2 \
+  --name vm-iis-test-002 \
+  --image "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
+  --size Standard_B2s \
   --admin-username azureuser \
-  --admin-password "ComplexPassword123!"
+  --admin-password "P@ssw0rd123!AzureVM" \
+  --public-ip-sku Standard \
+  --nsg-rule RDP
+
+# Open HTTP port
+az vm open-port \
+  --resource-group rg-demo-wus3 \
+  --name vm-iis-test-002 \
+  --port 80 \
+  --priority 1001
 ```
 
-5. **Show both VMs running**:
+6. **Show both VMs running with different versions**:
 ```bash
 az vm list \
-  --resource-group rg-demo \
+  --resource-group rg-demo-wus3 \
   --show-details \
   --query "[].{Name:name, PublicIP:publicIps}" -o table
 ```
 
+7. **Browse to both IPs to see visual difference**:
+   - vm-iis-test-001: Purple gradient (version 1.0.1)
+   - vm-iis-test-002: Orange gradient with ASCII art (version 1.0.2)
+
 **Talking Points:**
-- "We updated the template, triggered a new build, and deployed v1.0.2 in parallel with v1.0.1."
-- "Zero downtime. Customers on v1.0.1 stay running while new deployments get v1.0.2."
-- "Rollback is one command: just point VMSS/VMs back to v1.0.1."
+- "We updated the template, triggered a new build (30-35 min), and deployed v1.0.2 in parallel with v1.0.1."
+- "Zero downtime. Existing VMs on v1.0.1 stay running while new deployments get v1.0.2."
+- "Rollback is instant: just deploy from v1.0.1 again or update VMSS model."
+- "Both versions remain in the gallery - immutable version history for compliance."
 
 ---
 
