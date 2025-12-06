@@ -104,9 +104,6 @@ Display the architecture from `README.md` → **Section 2.2**:
     • Lifecycle Policies
 ```
 
-**Key Takeaway:**  
-"Every image has a complete audit trail from request through production, with no manual steps."
-
 ---
 
 ### Key Concepts — Deep Dive
