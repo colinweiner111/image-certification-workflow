@@ -1044,41 +1044,6 @@ Compliance confidence
 
 ---
 
-## Appendix: Speaker Tips & Timekeeping
-
-| Section | Duration | Flexibility |
-|---------|----------|------------|
-| **Welcome & Problem** | 5 min | Adjust if customer has deep questions |
-| **Architecture & Concepts** | 15 min | Skip demo if short on time (5 min savings) |
-| **Pipeline Walkthrough** | 15 min | Spend more time if customer has process questions |
-| **Production & Cost** | 15 min | Emphasize cost if budget is concern (5 min extra) |
-| **Anti-Patterns** (Bonus) | 5–10 min | Include if time permits; strong value-add |
-| **Next Steps & Closing** | 10 min | Always allocate full 10 min for action items |
-
----
-
-## Backup Q&A Scripts
-
-**Q: "How long does a full build cycle take?"**
-A: AIB build + Defender scan (24h automatic) + sandbox test (2–5 days) + approval (1–2 days) = **5 business days target**. Critical patches can skip some testing and be done in 24 hours.
-
-**Q: "Can we use the same image for Azure and on-prem?"**
-A: **Absolutely.** Build once in AIB, publish to ACG for Azure VMs, export as VHD for VMware/AVS/Hyper-V. Same customizers, same hardening, different deployment formats. See `README.md` → **Section 3.7 (VHD Export)**.
-
-**Q: "What if an image build fails?"**
-A: Azure Monitor captures all build logs. We investigate the failure, fix the template, trigger a retry. The previous version remains available for rollback if needed. See `README.md` → **Section 3.3 (Build Failure Handling)**.
-
-**Q: "How do we prevent configuration drift on deployed VMs?"**
-A: Immutable infrastructure principle: bake everything into the image, redeploy VMs monthly even if nothing changed, use Azure Policy to block manual SSH edits. See `README.md` → **Section 3.8 (Avoiding Configuration Drift)**.
-
-**Q: "What's the cost difference between Dev and Production?"**
-A: Production requires more agents, hardening, scanning, and replication—roughly 2–3x the cost. Example: Dev ~$15/month, Prod ~$50–80/month. See `README.md` → **Section 3.8 (Cost Management)**.
-
-**Q: "Can we integrate this with our existing GRC system?"**
-A: Yes. The GRC ticket triggers the build request. We log all steps (build, scan, test, approval) back to the ticket. You can query image tattoo metadata for audit reports. See `README.md` → **Section 3.6 (Compliance & Audit Trail)**.
-
----
-
 **Created**: December 4, 2025  
 **Deck Version**: 1.0  
 **Supporting Doc**: `README.md`  
