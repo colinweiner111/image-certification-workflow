@@ -648,7 +648,10 @@ az sig image-version show \
 
 ---
 
-#### **Demo Infrastructure Setup Script**
+**Created**: December 4, 2025  
+**Deck Version**: 1.0  
+**Supporting Doc**: `README.md`  
+**Next Review**: Post-customer-session feedback
 
 **Resource Group Architecture:**
 
