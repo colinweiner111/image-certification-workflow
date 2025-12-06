@@ -515,9 +515,14 @@ echo "VM deployed! Access it at: http://$publicIp"
 
 1. **Edit the template** - Update version to 1.0.2 and change landing page text (show quick edit in VS Code)
 
-2. **Update the AIB template resource**:
+2. **Delete the old template and recreate with updated JSON**:
 ```bash
-az image builder update \
+# AIB doesn't support updates - must delete and recreate
+az image builder delete \
+  --resource-group rg-aib-images \
+  --name aib-template-windows-iis
+
+az image builder create \
   --resource-group rg-aib-images \
   --name aib-template-windows-iis \
   --image-template aib-template-windows-iis.json
