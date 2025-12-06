@@ -10,7 +10,7 @@
 - ❌ Configuration drift over time → "works on my VM" problem
 - ❌ No way to prove image provenance during security audits
 
-**Customer Frustration Points:**
+**What Teams Are Asking:**
 - "How do we know which VMs have which hardening level?"
 - "We can't roll back if an image breaks production."
 - "Compliance audit asked for our image build logs—we had none."
