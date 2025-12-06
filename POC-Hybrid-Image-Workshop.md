@@ -1,4 +1,4 @@
-## POC - Hybrid Image Workshop
+## POC - Azure Image Builder
 
 ---
 
