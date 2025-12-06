@@ -145,14 +145,6 @@ Present each concept with a **What** + **Why** format:
 #### **Concept 4: Image Tattooing**
 - **What**: Embedding metadata (build ID, timestamp, customizers) into the OS registry/filesystem.
 - **Why**: Audit trail—you can prove which image is on a VM, when it was built, by whom.
-- **Query Example**:
-  ```powershell
-  # Windows
-  Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Azure Image Builder"
-  
-  # Linux
-  cat /var/lib/azure-image-builder/metadata.json | jq
-  ```
 
 ---
 
