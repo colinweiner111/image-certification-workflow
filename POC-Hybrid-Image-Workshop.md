@@ -7,7 +7,7 @@
 **Current Reality:**
 - ❌ Manual image builds on VMs → no audit trail, no versioning
 - ❌ Marketplace images deployed directly to production → not hardened, no compliance
-- ❌ Configuration drift over time → "works on my VM" problem
+- ❌ Configuration drift over time → click ops
 - ❌ No way to prove image provenance during security audits
 
 **What Teams Are Asking:**
