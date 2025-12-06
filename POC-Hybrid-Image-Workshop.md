@@ -595,6 +595,24 @@ Customizers            : Install IIS, Deploy Custom Landing Page
 
 #### **Demo Infrastructure Setup Script**
 
+**Resource Group Architecture:**
+
+The demo uses three separate resource groups for security and lifecycle management:
+
+| Resource Group | Purpose | Contains |
+|---------------|---------|----------|
+| **rg-aib-images** | Build infrastructure | AIB templates, managed identities, build VMs (temporary) |
+| **rg-acg** | Image storage | Azure Compute Gallery, image definitions, image versions |
+| **rg-demo** | Test deployments | VMs deployed from gallery for testing/validation |
+
+**Why separate resource groups?**
+- ✅ **Security**: Different teams get different permissions (developers read gallery, only DevOps triggers builds)
+- ✅ **Lifecycle**: Delete build resources without affecting stored images
+- ✅ **Cost tracking**: See costs per function (building vs storage vs testing)
+- ✅ **Replication**: Gallery can replicate across regions independently
+
+---
+
 **Automated Setup:**
 Create a `demo-setup.sh` script to automate all infrastructure creation:
 
