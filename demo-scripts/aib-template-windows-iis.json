@@ -15,7 +15,8 @@
         "name": "Install IIS",
         "inline": [
           "Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature",
-          "Install-WindowsFeature -Name Web-Asp-Net45"
+          "Install-WindowsFeature -Name Web-Asp-Net45",
+          "Set-Service -Name W3SVC -StartupType Automatic"
         ]
       },
       {
