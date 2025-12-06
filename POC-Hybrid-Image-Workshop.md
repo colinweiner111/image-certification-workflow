@@ -199,45 +199,6 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-## Build → Scan → Test → Approve Pipeline
-
-### Production vs. Dev/Test Requirements
-
-**Reference**: `README.md` → **Section 2.1 (Production vs Non-Production)**
-
-| Requirement | Dev/Test | Production |
-|------------|----------|------------|
-| **Security agents** | Optional | Mandatory |
-| **CIS/NIST hardening** | Minimal | Full benchmark |
-| **Vulnerability scanning** | Optional | Required + manual review |
-| **Functional testing** | Smoke tests | Full validation suite |
-| **GRC approval** | Optional | Required with audit trail |
-| **Build frequency** | Daily/On-demand | Monthly (post Patch Tuesday) |
-| **Image retention** | 2 versions | 5+ versions |
-| **Critical patch SLA** | Best effort | 24 hours |
-
-**Key Insight:**  
-"You match your rigor to your environment risk. Dev is fast; production is bulletproof."
-
----
-
-### Step-by-Step Pipeline Walkthrough
-
-**Reference**: `README.md` → **Section 3 (Workflow Details)**
-
-| Phase | Owner | Duration | Key Output | Go/No-Go? |
-|-------|-------|----------|------------|-----------|
-| **Pre-Validation** | Security | 1 day | Baseline checklist | OS supported? Agents OK? |
-| **AIB Build** | DevOps | 30–60 min | Hardened image in ACG | Build succeeded? |
-| **Defender Scan** | Automated | 24 hours | CVE report | CVE threshold met? |
-| **Sandbox Test** | QA | 2–5 days | Test results | All pass criteria met? |
-| **Approval** | Security + IT Mgr | 1 day | GRC sign-off + artifacts | Release to production? |
-| **Distribution** | DevOps | Immediate | VMSS/VHD deployed | Health check passed? |
-
-**Total Timeline**: Request → Approved = **5 business days target**
-
----
-
 ### Live Lab Demo — Windows Server with IIS
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
