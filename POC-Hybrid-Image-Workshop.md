@@ -681,14 +681,32 @@ az group create --name rg-aib-images-wus3 --location westus3
 az group create --name rg-acg-wus3 --location westus3
 az group create --name rg-demo-wus3 --location westus3
 
-# Step 2: Create Azure Compute Gallery
+# Step 2: Create Managed Identity for AIB
+echo "Creating managed identity..."
+az identity create \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-identity-wus3 \
+  --location westus3
+
+# Get the identity IDs
+identityPrincipalId=$(az identity show --resource-group rg-aib-images-wus3 --name aib-identity-wus3 --query principalId -o tsv)
+
+# Step 3: Assign Contributor role to identity on gallery resource group
+echo "Assigning Contributor role (waiting 10 seconds for identity replication)..."
+sleep 10
+az role assignment create \
+  --assignee $identityPrincipalId \
+  --role Contributor \
+  --scope /subscriptions/$(az account show --query id -o tsv)/resourceGroups/rg-acg-wus3
+
+# Step 4: Create Azure Compute Gallery
 echo "Creating Azure Compute Gallery..."
 az sig create \
   --resource-group rg-acg-wus3 \
   --gallery-name acg_corp_images_wus3 \
   --location westus3
 
-# Step 3: Create Image Definition
+# Step 5: Create Image Definition
 echo "Creating image definition..."
 az sig image-definition create \
   --resource-group rg-acg-wus3 \
@@ -703,7 +721,7 @@ az sig image-definition create \
   --features SecurityType=TrustedLaunch \
   --location westus3
 
-# Step 4: Get your subscription ID (you'll need this for the template)
+# Step 6: Get your subscription ID (you'll need this for the template)
 echo ""
 echo "Your subscription ID:"
 az account show --query id -o tsv
