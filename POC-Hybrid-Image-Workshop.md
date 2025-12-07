@@ -193,7 +193,7 @@ Present each concept with a **What** + **Why** format:
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
 
 **Demo Scripts Available**: 
-- **Option 1 - Manual**: Follow Part 1 (Show the AIB Template), Part 2 (Create Infrastructure), Part 3 (Build & Publish), etc. below to run each step individually and understand the workflow
+- **Option 1 - Manual**: Follow Part 1 (Show the AIB Template), Part 2 (Create Infrastructure), Part 3 (Trigger the Build), Part 4 (Verify Image), Part 5 (Deploy VM), etc. below to run each step individually and understand the workflow
 - **Option 2 - Automated**: Use the pre-built scripts in [`/demo-scripts/`](./demo-scripts/) to run infrastructure setup unattended
   - [`demo-setup.sh`](./demo-scripts/demo-setup.sh) - Creates all Azure resources (resource groups, gallery, image definition)
   - [`aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json) - AIB template with IIS customization
@@ -302,7 +302,83 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 
 ---
 
-#### **Part 2: Trigger the Build**
+#### **Part 2: Create Infrastructure**
+
+**Manual Steps:**
+
+1. **Create the three resource groups**:
+```bash
+az group create --name rg-aib-images-wus3 --location westus3
+az group create --name rg-acg-wus3 --location westus3
+az group create --name rg-demo-wus3 --location westus3
+```
+
+**Talking Points:**
+- "We separate resources into three groups for security and lifecycle management."
+- "Build infrastructure (rg-aib-images-wus3) can be deleted without affecting stored images."
+- "Gallery (rg-acg-wus3) persists image versions long-term."
+- "Demo VMs (rg-demo-wus3) are ephemeral for testing."
+
+2. **Create managed identity**:
+```bash
+az identity create \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-identity-wus3 \
+  --location westus3
+```
+
+3. **Assign Contributor role to the identity on the gallery resource group**:
+```bash
+# Get the principal ID
+principalId=$(az identity show \
+  --resource-group rg-aib-images-wus3 \
+  --name aib-identity-wus3 \
+  --query principalId -o tsv)
+
+# Assign the role
+az role assignment create \
+  --assignee-object-id $principalId \
+  --role Contributor \
+  --scope /subscriptions/{sub}/resourceGroups/rg-acg-wus3 \
+  --assignee-principal-type ServicePrincipal
+```
+
+**Talking Point**: "The managed identity needs Contributor access to publish images to the gallery. This follows least-privilege principles."
+
+4. **Create Azure Compute Gallery**:
+```bash
+az sig create \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --location westus3
+```
+
+**Talking Point**: "The gallery is our version-controlled image repository. It supports multi-region replication and RBAC."
+
+5. **Create Image Definition**:
+```bash
+az sig image-definition create \
+  --resource-group rg-acg-wus3 \
+  --gallery-name acg_corp_images_wus3 \
+  --gallery-image-definition windows-iis-hardened \
+  --publisher MyCompany \
+  --offer WindowsServer \
+  --sku 2022-IIS \
+  --os-type Windows \
+  --os-state Generalized \
+  --hyper-v-generation V2 \
+  --features SecurityType=TrustedLaunch \
+  --location westus3
+```
+
+**Talking Points:**
+- "The image definition is like a container for versions - 1.0.1, 1.0.2, 1.0.3, etc."
+- "We're specifying Gen2 and TrustedLaunch for enhanced security."
+- "Publisher/Offer/SKU helps us organize different image families."
+
+---
+
+#### **Part 3: Trigger the Build**
 
 **Prerequisites** (if not using demo-setup.sh):
 
@@ -316,26 +392,8 @@ az identity create \
 # Get the client ID
 clientId=$(az identity show \
   --resource-group rg-aib-images \
-  --name aib-identity \
-  --query clientId -o tsv)
 
-# Grant Contributor access to ACG resource group
-az role assignment create \
-  --assignee $clientId \
-  --role "Contributor" \
-  --scope "/subscriptions/{sub}/resourceGroups/rg-acg"
-```
-
-2. **Update template with your subscription ID**:
-```bash
-# Get subscription ID
-subId=$(az account show --query id -o tsv)
-echo "Your subscription ID: $subId"
-
-# Manually replace {sub} in aib-template-windows-iis.json
-# Or use sed:
-sed "s/{sub}/$subId/g" aib-template-windows-iis.json > aib-template-windows-iis-updated.json
-```
+#### **Part 3: Trigger the Build**
 
 **Manual Steps:**
 
@@ -391,7 +449,7 @@ az image builder show-runs \
 
 ---
 
-#### **Part 3: Verify Image in ACG**
+#### **Part 4: Verify Image in ACG**
 
 **Manual Steps:**
 
@@ -421,7 +479,7 @@ az sig image-version show \
 
 ---
 
-#### **Part 4: Deploy VM from Gallery Image**
+#### **Part 5: Deploy VM from Gallery Image**
 
 **Manual Steps:**
 
@@ -455,7 +513,7 @@ echo "VM deployed! Access it at: http://$publicIp"
 
 ---
 
-#### **Part 5: Update the Image & Redeploy**
+#### **Part 6: Update the Image & Redeploy**
 
 **Manual Steps:**
 
@@ -541,7 +599,7 @@ az vm list \
 
 ---
 
-#### **Part 6: Show Image Tattoo (Provenance Metadata)**
+#### **Part 7: Show Image Tattoo (Provenance Metadata)**
 
 **Manual Steps:**
 
