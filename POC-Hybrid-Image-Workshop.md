@@ -548,6 +548,8 @@ az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 
 2. **Show image metadata (tattoo)**:
 
+   > ⚠️ **Note**: Make sure the version number matches what you built. If you're following this test run, use `1.0.3` instead of `1.0.1`.
+
 **🐧 Bash:**
 ```bash
 az sig image-version show \
