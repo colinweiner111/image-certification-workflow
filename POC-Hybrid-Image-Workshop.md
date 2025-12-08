@@ -304,10 +304,21 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 
 #### **Part 2: Create Infrastructure**
 
+> **Note**: Commands shown in both **Bash** (for Linux/macOS/WSL/Cloud Shell) and **PowerShell** (for Windows) formats.
+
 **Manual Steps:**
 
 1. **Create the three resource groups**:
+
+**Bash:**
 ```bash
+az group create --name rg-aib-images-wus3 --location westus3
+az group create --name rg-acg-wus3 --location westus3
+az group create --name rg-demo-wus3 --location westus3
+```
+
+**PowerShell:**
+```powershell
 az group create --name rg-aib-images-wus3 --location westus3
 az group create --name rg-acg-wus3 --location westus3
 az group create --name rg-demo-wus3 --location westus3
@@ -320,6 +331,8 @@ az group create --name rg-demo-wus3 --location westus3
 - "Demo VMs (rg-demo-wus3) are ephemeral for testing."
 
 2. **Create managed identity**:
+
+**Bash:**
 ```bash
 az identity create \
   --resource-group rg-aib-images-wus3 \
@@ -327,7 +340,14 @@ az identity create \
   --location westus3
 ```
 
+**PowerShell:**
+```powershell
+az identity create --resource-group rg-aib-images-wus3 --name aib-identity-wus3 --location westus3
+```
+
 3. **Assign Contributor role to the identity on the gallery resource group**:
+
+**Bash:**
 ```bash
 # Get the principal ID
 principalId=$(az identity show \
@@ -343,9 +363,23 @@ az role assignment create \
   --assignee-principal-type ServicePrincipal
 ```
 
+**PowerShell:**
+```powershell
+# Get the principal ID
+$principalId = az identity show --resource-group rg-aib-images-wus3 --name aib-identity-wus3 --query principalId -o tsv
+
+# Get subscription ID
+$subscriptionId = az account show --query id -o tsv
+
+# Assign the role
+az role assignment create --assignee-object-id $principalId --role Contributor --scope "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3" --assignee-principal-type ServicePrincipal
+```
+
 **Talking Point**: "The managed identity needs Contributor access to publish images to the gallery. This follows least-privilege principles."
 
 4. **Create Azure Compute Gallery**:
+
+**Bash:**
 ```bash
 az sig create \
   --resource-group rg-acg-wus3 \
@@ -353,9 +387,16 @@ az sig create \
   --location westus3
 ```
 
+**PowerShell:**
+```powershell
+az sig create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --location westus3
+```
+
 **Talking Point**: "The gallery is our version-controlled image repository. It supports multi-region replication and RBAC."
 
 5. **Create Image Definition**:
+
+**Bash:**
 ```bash
 az sig image-definition create \
   --resource-group rg-acg-wus3 \
@@ -369,6 +410,11 @@ az sig image-definition create \
   --hyper-v-generation V2 \
   --features SecurityType=TrustedLaunch \
   --location westus3
+```
+
+**PowerShell:**
+```powershell
+az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --publisher MyCompany --offer WindowsServer --sku 2022-IIS --os-type Windows --os-state Generalized --hyper-v-generation V2 --features SecurityType=TrustedLaunch --location westus3
 ```
 
 **Talking Points:**
@@ -398,6 +444,8 @@ clientId=$(az identity show \
 **Manual Steps:**
 
 1. **Create the AIB template resource** (first time only):
+
+**Bash:**
 ```bash
 az image builder create \
   --resource-group rg-aib-images-wus3 \
@@ -405,12 +453,26 @@ az image builder create \
   --image-template aib-template-windows-iis-wus3.json
 ```
 
+**PowerShell:**
+```powershell
+az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json
+```
+
 **Note**: If you get a conflict error about template already existing, delete it first:
+
+**Bash:**
 ```bash
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
+**PowerShell:**
+```powershell
+az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
+```
+
 2. **Trigger the build**:
+
+**Bash:**
 ```bash
 az image builder run \
   --resource-group rg-aib-images-wus3 \
@@ -420,7 +482,16 @@ az image builder run \
 echo "Build started. Monitoring progress..."
 ```
 
+**PowerShell:**
+```powershell
+az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --no-wait
+
+Write-Host "Build started. Monitoring progress..."
+```
+
 3. **Check build status**:
+
+**Bash:**
 ```bash
 # Check current run status
 az image builder show \
