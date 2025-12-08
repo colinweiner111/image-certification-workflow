@@ -426,21 +426,6 @@ az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_c
 
 ### **Part 3: Trigger the Build**
 
-**Prerequisites** (if not using demo-setup.sh):
-
-1. **Create managed identity and grant permissions**:
-```bash
-# Create identity
-az identity create \
-  --resource-group rg-aib-images \
-  --name aib-identity
-
-# Get the client ID
-clientId=$(az identity show \
-  --resource-group rg-aib-images \
-
-### **Part 3: Trigger the Build**
-
 ### **Manual Steps:**
 
 1. **Create the AIB template resource** (first time only):
