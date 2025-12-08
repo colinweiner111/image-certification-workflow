@@ -579,6 +579,8 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 
 1. **Deploy VM from ACG image**:
 
+   > ⚠️ **Note**: Update the version number in the `--image` path to match what you built (e.g., `1.0.3` instead of `1.0.1`).
+
 **🐧 Bash:**
 ```bash
 az vm create \
