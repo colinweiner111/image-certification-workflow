@@ -557,12 +557,13 @@ az sig image-version show \
   --gallery-name acg_corp_images_wus3 \
   --gallery-image-definition windows-iis-hardened \
   --gallery-image-version 1.0.1 \
-  --output json | jq '.tags'
+  --query "{Version:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId, DateCreated:tags.DateCreated}" \
+  --output table
 ```
 
 **💻 PowerShell:**
 ```powershell
-az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
+az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "{Version:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId, DateCreated:tags.DateCreated}" --output table
 ```
 
 **Talking Points:**
