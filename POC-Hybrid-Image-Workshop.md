@@ -513,6 +513,15 @@ az image builder show-runs \
   --query "[0].[runState, runOutputName]" -o table
 ```
 
+**PowerShell:**
+```powershell
+# Check current run status
+az image builder show --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "lastRunStatus"
+
+# Check all historical runs
+az image builder show-runs --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "[0].[runState, runOutputName]" -o table
+```
+
 **Demo Note**: For a live customer call, you'd either:
 - Pre-stage a completed build to show results immediately
 - Show a build-in-progress and explain the timeline
@@ -525,6 +534,8 @@ az image builder show-runs \
 **Manual Steps:**
 
 1. **List all image versions**:
+
+**Bash:**
 ```bash
 az sig image-version list \
   --resource-group rg-acg-wus3 \
@@ -533,7 +544,14 @@ az sig image-version list \
   --output table
 ```
 
+**PowerShell:**
+```powershell
+az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --output table
+```
+
 2. **Show image metadata (tattoo)**:
+
+**Bash:**
 ```bash
 az sig image-version show \
   --resource-group rg-acg-wus3 \
@@ -541,6 +559,11 @@ az sig image-version show \
   --gallery-image-definition windows-iis-hardened \
   --gallery-image-version 1.0.1 \
   --output json | jq '.tags'
+```
+
+**PowerShell:**
+```powershell
+az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
 ```
 
 **Talking Points:**
@@ -555,6 +578,8 @@ az sig image-version show \
 **Manual Steps:**
 
 1. **Deploy VM from ACG image**:
+
+**Bash:**
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
@@ -564,10 +589,49 @@ az vm create \
   --admin-username azureuser \
   --admin-password "ComplexPassword123!" \
   --nsg-rule RDP \
-  --public-ip-sku Standard
+  --public-ip-sku Standard \
+  --security-type TrustedLaunch
 ```
 
-2. **Get the public IP**:
+**PowerShell:**
+```powershell
+# Get subscription ID
+$subscriptionId = az account show --query id -o tsv
+
+# Deploy VM
+az vm create --resource-group rg-demo-wus3 --name vm-iis-demo-001 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1" --size Standard_B2as_v2 --admin-username azureuser --admin-password "ComplexPassword123!" --nsg-rule RDP --public-ip-sku Standard --security-type TrustedLaunch
+```
+
+2. **Open HTTP port 80**:
+
+**Bash:**
+```bash
+# Get NSG name
+nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[0].name" -o tsv)
+
+# Add HTTP rule
+az network nsg rule create \
+  --resource-group rg-demo-wus3 \
+  --nsg-name $nsgName \
+  --name AllowHTTP \
+  --priority 1001 \
+  --destination-port-ranges 80 \
+  --protocol Tcp \
+  --access Allow
+```
+
+**PowerShell:**
+```powershell
+# Get NSG name
+$nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[0].name" -o tsv
+
+# Add HTTP rule
+az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --name AllowHTTP --priority 1001 --destination-port-ranges 80 --protocol Tcp --access Allow
+```
+
+3. **Get the public IP**:
+
+**Bash:**
 ```bash
 publicIp=$(az vm show \
   --resource-group rg-demo-wus3 \
@@ -576,6 +640,13 @@ publicIp=$(az vm show \
   --query publicIps -o tsv)
 
 echo "VM deployed! Access it at: http://$publicIp"
+```
+
+**PowerShell:**
+```powershell
+$publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-demo-001 --show-details --query publicIps -o tsv
+
+Write-Host "VM deployed! Access it at: http://$publicIp"
 ```
 
 **Demo**: Open a browser and navigate to the public IP to show the custom landing page is already there (no post-deployment installation needed).
@@ -595,6 +666,8 @@ echo "VM deployed! Access it at: http://$publicIp"
    - **Important**: Avoid using emoji characters in PowerShell inline scripts (UTF-8 encoding issues)
 
 2. **Delete the old template and recreate with updated JSON**:
+
+**Bash:**
 ```bash
 # AIB doesn't support updates - must delete and recreate
 az image builder delete \
@@ -607,7 +680,17 @@ az image builder create \
   --image-template aib-template-windows-iis-wus3.json
 ```
 
+**PowerShell:**
+```powershell
+# AIB doesn't support updates - must delete and recreate
+az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
+
+az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json
+```
+
 3. **Trigger new build**:
+
+**Bash:**
 ```bash
 az image builder run \
   --resource-group rg-aib-images-wus3 \
@@ -621,7 +704,17 @@ az image builder show \
   --query "lastRunStatus"
 ```
 
+**PowerShell:**
+```powershell
+az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --no-wait
+
+# Monitor build progress
+az image builder show --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "lastRunStatus"
+```
+
 4. **Once complete (Succeeded), verify in gallery**:
+
+**Bash:**
 ```bash
 az sig image-version list \
   --resource-group rg-acg-wus3 \
@@ -630,27 +723,60 @@ az sig image-version list \
   --output table
 ```
 
+**PowerShell:**
+```powershell
+az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --output table
+```
+
 5. **Deploy NEW VM from version 1.0.2**:
+
+**Bash:**
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
   --name vm-iis-test-002 \
-  --image "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
-  --size Standard_B2s \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
+  --size Standard_B2as_v2 \
   --admin-username azureuser \
   --admin-password "P@ssw0rd123!AzureVM" \
   --public-ip-sku Standard \
-  --nsg-rule RDP
-
-# Open HTTP port
-az vm open-port \
-  --resource-group rg-demo-wus3 \
-  --name vm-iis-test-002 \
-  --port 80 \
-  --priority 1001
+  --nsg-rule RDP \
+  --security-type TrustedLaunch
 ```
 
-6. **Show both VMs running with different versions**:
+**PowerShell:**
+```powershell
+$subscriptionId = az account show --query id -o tsv
+
+az vm create --resource-group rg-demo-wus3 --name vm-iis-test-002 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" --size Standard_B2as_v2 --admin-username azureuser --admin-password "P@ssw0rd123!AzureVM" --public-ip-sku Standard --nsg-rule RDP --security-type TrustedLaunch
+```
+
+6. **Open HTTP port**:
+
+**Bash:**
+```bash
+nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv)
+
+az network nsg rule create \
+  --resource-group rg-demo-wus3 \
+  --nsg-name $nsgName \
+  --name AllowHTTP \
+  --priority 1001 \
+  --destination-port-ranges 80 \
+  --protocol Tcp \
+  --access Allow
+```
+
+**PowerShell:**
+```powershell
+$nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv
+
+az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --name AllowHTTP --priority 1001 --destination-port-ranges 80 --protocol Tcp --access Allow
+```
+
+7. **Show both VMs running with different versions**:
+
+**Bash:**
 ```bash
 az vm list \
   --resource-group rg-demo-wus3 \
@@ -658,9 +784,14 @@ az vm list \
   --query "[].{Name:name, PublicIP:publicIps}" -o table
 ```
 
-7. **Browse to both IPs to see visual difference**:
-   - vm-iis-test-001: Purple gradient (version 1.0.1)
-   - vm-iis-test-002: Orange gradient with ASCII art (version 1.0.2)
+**PowerShell:**
+```powershell
+az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, PublicIP:publicIps}" -o table
+```
+
+8. **Browse to both IPs to see visual difference**:
+   - vm-iis-demo-001: Version 1.0.1 landing page
+   - vm-iis-test-002: Version 1.0.2 landing page with updates
 
 **Talking Points:**
 - "We updated the template, triggered a new build (30-35 min), and deployed v1.0.2 in parallel with v1.0.1."
@@ -676,6 +807,7 @@ az vm list \
 
 1. **Query the image version metadata from the Azure Compute Gallery**:
 
+**Bash:**
 ```bash
 # Show the image tattoo (provenance metadata) for version 1.0.1
 az sig image-version show \
@@ -685,6 +817,11 @@ az sig image-version show \
   --gallery-image-version 1.0.1 \
   --query "{Name:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId}" \
   --output json
+```
+
+**PowerShell:**
+```powershell
+az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "{Name:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId}" --output json
 ```
 
 **Output example**:
@@ -699,6 +836,7 @@ az sig image-version show \
 
 2. **Show all tags for complete audit trail**:
 
+**Bash:**
 ```bash
 az sig image-version show \
   --resource-group rg-acg-wus3 \
@@ -707,6 +845,11 @@ az sig image-version show \
   --gallery-image-version 1.0.1 \
   --query "tags" \
   --output json
+```
+
+**PowerShell:**
+```powershell
+az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
 ```
 
 **Talking Points:**
