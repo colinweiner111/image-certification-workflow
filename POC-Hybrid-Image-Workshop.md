@@ -221,7 +221,7 @@ bash demo-setup.sh
 
 ---
 
-#### **Part 1: Show the AIB Template**
+### **Part 1: Show the AIB Template**
 
 Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis.json` or [`/demo-scripts/aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json)):
 
@@ -302,22 +302,22 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 
 ---
 
-#### **Part 2: Create Infrastructure**
+### **Part 2: Create Infrastructure**
 
 > **Note**: Commands shown in both **Bash** (for Linux/macOS/WSL/Cloud Shell) and **PowerShell** (for Windows) formats.
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **Create the three resource groups**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az group create --name rg-aib-images-wus3 --location westus3
 az group create --name rg-acg-wus3 --location westus3
 az group create --name rg-demo-wus3 --location westus3
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az group create --name rg-aib-images-wus3 --location westus3
 az group create --name rg-acg-wus3 --location westus3
@@ -332,7 +332,7 @@ az group create --name rg-demo-wus3 --location westus3
 
 2. **Create managed identity**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az identity create \
   --resource-group rg-aib-images-wus3 \
@@ -340,14 +340,14 @@ az identity create \
   --location westus3
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az identity create --resource-group rg-aib-images-wus3 --name aib-identity-wus3 --location westus3
 ```
 
 3. **Assign Contributor role to the identity on the gallery resource group**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 # Get the principal ID
 principalId=$(az identity show \
@@ -363,7 +363,7 @@ az role assignment create \
   --assignee-principal-type ServicePrincipal
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 # Get the principal ID
 $principalId = az identity show --resource-group rg-aib-images-wus3 --name aib-identity-wus3 --query principalId -o tsv
@@ -379,7 +379,7 @@ az role assignment create --assignee-object-id $principalId --role Contributor -
 
 4. **Create Azure Compute Gallery**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig create \
   --resource-group rg-acg-wus3 \
@@ -387,7 +387,7 @@ az sig create \
   --location westus3
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --location westus3
 ```
@@ -396,7 +396,7 @@ az sig create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 -
 
 5. **Create Image Definition**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig image-definition create \
   --resource-group rg-acg-wus3 \
@@ -412,7 +412,7 @@ az sig image-definition create \
   --location westus3
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --publisher MyCompany --offer WindowsServer --sku 2022-IIS --os-type Windows --os-state Generalized --hyper-v-generation V2 --features SecurityType=TrustedLaunch --location westus3
 ```
@@ -424,7 +424,7 @@ az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_c
 
 ---
 
-#### **Part 3: Trigger the Build**
+### **Part 3: Trigger the Build**
 
 **Prerequisites** (if not using demo-setup.sh):
 
@@ -439,13 +439,13 @@ az identity create \
 clientId=$(az identity show \
   --resource-group rg-aib-images \
 
-#### **Part 3: Trigger the Build**
+### **Part 3: Trigger the Build**
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **Create the AIB template resource** (first time only):
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az image builder create \
   --resource-group rg-aib-images-wus3 \
@@ -453,26 +453,26 @@ az image builder create \
   --image-template aib-template-windows-iis-wus3.json
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json
 ```
 
 **Note**: If you get a conflict error about template already existing, delete it first:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
 2. **Trigger the build**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az image builder run \
   --resource-group rg-aib-images-wus3 \
@@ -482,7 +482,7 @@ az image builder run \
 echo "Build started. Monitoring progress..."
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --no-wait
 
@@ -491,7 +491,7 @@ Write-Host "Build started. Monitoring progress..."
 
 3. **Check build status**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 # Check current run status
 az image builder show \
@@ -513,7 +513,7 @@ az image builder show-runs \
   --query "[0].[runState, runOutputName]" -o table
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 # Check current run status
 az image builder show --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "lastRunStatus"
@@ -529,13 +529,13 @@ az image builder show-runs --resource-group rg-aib-images-wus3 --name aib-templa
 
 ---
 
-#### **Part 4: Verify Image in ACG**
+### **Part 4: Verify Image in ACG**
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **List all image versions**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig image-version list \
   --resource-group rg-acg-wus3 \
@@ -544,14 +544,14 @@ az sig image-version list \
   --output table
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --output table
 ```
 
 2. **Show image metadata (tattoo)**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig image-version show \
   --resource-group rg-acg-wus3 \
@@ -561,7 +561,7 @@ az sig image-version show \
   --output json | jq '.tags'
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
 ```
@@ -573,13 +573,13 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 
 ---
 
-#### **Part 5: Deploy VM from Gallery Image**
+### **Part 5: Deploy VM from Gallery Image**
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **Deploy VM from ACG image**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
@@ -593,7 +593,7 @@ az vm create \
   --security-type TrustedLaunch
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 # Get subscription ID
 $subscriptionId = az account show --query id -o tsv
@@ -604,7 +604,7 @@ az vm create --resource-group rg-demo-wus3 --name vm-iis-demo-001 --image "/subs
 
 2. **Open HTTP port 80**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 # Get NSG name
 nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[0].name" -o tsv)
@@ -620,7 +620,7 @@ az network nsg rule create \
   --access Allow
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 # Get NSG name
 $nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[0].name" -o tsv
@@ -631,7 +631,7 @@ az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --n
 
 3. **Get the public IP**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 publicIp=$(az vm show \
   --resource-group rg-demo-wus3 \
@@ -642,7 +642,7 @@ publicIp=$(az vm show \
 echo "VM deployed! Access it at: http://$publicIp"
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 $publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-demo-001 --show-details --query publicIps -o tsv
 
@@ -655,9 +655,9 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 ---
 
-#### **Part 6: Update the Image & Redeploy**
+### **Part 6: Update the Image & Redeploy**
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **Edit the template** - Update version to 1.0.2 and change landing page style:
    - Change gradient colors from purple to orange/red (`#ff6b6b` to `#ff8e53`)
@@ -667,7 +667,7 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 2. **Delete the old template and recreate with updated JSON**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 # AIB doesn't support updates - must delete and recreate
 az image builder delete \
@@ -680,7 +680,7 @@ az image builder create \
   --image-template aib-template-windows-iis-wus3.json
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 # AIB doesn't support updates - must delete and recreate
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
@@ -690,7 +690,7 @@ az image builder create --resource-group rg-aib-images-wus3 --name aib-template-
 
 3. **Trigger new build**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az image builder run \
   --resource-group rg-aib-images-wus3 \
@@ -704,7 +704,7 @@ az image builder show \
   --query "lastRunStatus"
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --no-wait
 
@@ -714,7 +714,7 @@ az image builder show --resource-group rg-aib-images-wus3 --name aib-template-wi
 
 4. **Once complete (Succeeded), verify in gallery**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig image-version list \
   --resource-group rg-acg-wus3 \
@@ -723,14 +723,14 @@ az sig image-version list \
   --output table
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --output table
 ```
 
 5. **Deploy NEW VM from version 1.0.2**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
@@ -744,7 +744,7 @@ az vm create \
   --security-type TrustedLaunch
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 $subscriptionId = az account show --query id -o tsv
 
@@ -753,7 +753,7 @@ az vm create --resource-group rg-demo-wus3 --name vm-iis-test-002 --image "/subs
 
 6. **Open HTTP port**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv)
 
@@ -767,7 +767,7 @@ az network nsg rule create \
   --access Allow
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 $nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv
 
@@ -776,7 +776,7 @@ az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --n
 
 7. **Show both VMs running with different versions**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az vm list \
   --resource-group rg-demo-wus3 \
@@ -784,7 +784,7 @@ az vm list \
   --query "[].{Name:name, PublicIP:publicIps}" -o table
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, PublicIP:publicIps}" -o table
 ```
@@ -801,13 +801,13 @@ az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, 
 
 ---
 
-#### **Part 7: Show Image Tattoo (Provenance Metadata)**
+### **Part 7: Show Image Tattoo (Provenance Metadata)**
 
-**Manual Steps:**
+### **Manual Steps:**
 
 1. **Query the image version metadata from the Azure Compute Gallery**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 # Show the image tattoo (provenance metadata) for version 1.0.1
 az sig image-version show \
@@ -819,7 +819,7 @@ az sig image-version show \
   --output json
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "{Name:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId}" --output json
 ```
@@ -836,7 +836,7 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 
 2. **Show all tags for complete audit trail**:
 
-### 🐧 Bash
+**🐧 Bash:**
 ```bash
 az sig image-version show \
   --resource-group rg-acg-wus3 \
@@ -847,7 +847,7 @@ az sig image-version show \
   --output json
 ```
 
-### 💻 PowerShell
+**💻 PowerShell:**
 ```powershell
 az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
 ```
