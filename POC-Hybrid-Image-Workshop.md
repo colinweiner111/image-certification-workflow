@@ -455,7 +455,9 @@ az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
-2. **Trigger the build** (takes approximately **30-35 minutes** to complete):
+2. **Trigger the build**:
+
+   > ⏱️ **Note**: This build process takes approximately **30-35 minutes** to complete.
 
 **🐧 Bash:**
 ```bash
