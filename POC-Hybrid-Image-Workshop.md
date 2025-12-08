@@ -255,7 +255,8 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
         "inline": [
           "Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature",
           "Install-WindowsFeature -Name Web-Asp-Net45",
-          "Set-Service -Name W3SVC -StartupType Automatic"
+          "Set-Service -Name W3SVC -StartupType Automatic",
+          "Start-Service -Name W3SVC"
         ]
       },
       {
@@ -263,10 +264,19 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
         "name": "Deploy Custom Landing Page",
         "inline": [
           "$html = '<!DOCTYPE html><html><head><title>Welcome</title></head>'",
-          "$html += '<body style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-align: center; font-family: Arial;\">'",
-          "$html += '<h1>Welcome to Our Hardened Windows Server</h1>'",
-          "$html += '<p>This image was built with Azure Image Builder</p>'",
-          "$html += '<p>Build Version: 1.0.1 | Built: 2025-12-05 | Region: West US 3</p>'",
+          "$html += '<body style=\"background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); color: white; text-align: center; font-family: Segoe UI, Tahoma, sans-serif; padding: 50px;\">'",
+          "$html += '<pre style=\"font-size: 1.2em; line-height: 1.2; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 20px auto; display: inline-block;\">'",
+          "$html += '    ___                        '",
+          "$html += '   /   |____  __  __________   '",
+          "$html += '  / /| /_  / / / / / ___/ _ \\  '",
+          "$html += ' / ___ |/ /_/ /_/ / /  /  __/  '",
+          "$html += '/_/  |_/___/\\__,_/_/   \\___/   '",
+          "$html += '                               '",
+          "$html += '  Image Builder v1.0.3         '",
+          "$html += '</pre>'",
+          "$html += '<h1 style=\"font-size: 3em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 30px 0;\">Welcome to Our Hardened Windows Server</h1>'",
+          "$html += '<p style=\"font-size: 1.4em; font-weight: 600; margin: 20px 0;\">*** This image was built with Azure Image Builder ***</p>'",
+          "$html += '<p style=\"font-size: 1.3em; font-weight: 500; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;\">Build Version: 1.0.3 | Built: 2025-12-05 | Region: West US 3 | >> Updated with IIS Auto-Start!</p>'",
           "$html += '</body></html>'",
           "Set-Content -Path 'C:\\inetpub\\wwwroot\\index.html' -Value $html"
         ]
@@ -275,8 +285,8 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
     "distribute": [
       {
         "type": "SharedImage",
-        "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1",
-        "runOutputName": "windows-iis-hardened-1.0.1",
+        "galleryImageId": "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.3",
+        "runOutputName": "windows-iis-hardened-1.0.3",
         "replicationRegions": [
           "westus3"
         ]
