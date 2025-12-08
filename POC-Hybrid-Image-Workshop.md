@@ -196,7 +196,7 @@ Present each concept with a **What** + **Why** format:
 - **Option 1 - Manual**: Follow Part 1 (Show the AIB Template), Part 2 (Create Infrastructure), Part 3 (Trigger the Build), Part 4 (Verify Image), Part 5 (Deploy VM), etc. below to run each step individually and understand the workflow
 - **Option 2 - Automated**: Use the pre-built scripts in [`/demo-scripts/`](./demo-scripts/) to run infrastructure setup unattended
   - [`demo-setup.sh`](./demo-scripts/demo-setup.sh) - Creates all Azure resources (resource groups, gallery, image definition)
-  - [`aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json) - AIB template with IIS customization
+  - [`aib-template-windows-iis-wus3.json`](./demo-scripts/aib-template-windows-iis-wus3.json) - AIB template with IIS customization
   - [`cleanup.sh`](./demo-scripts/cleanup.sh) - Removes all demo resources
 
 **Download Demo Scripts to Your Local Machine:**
@@ -209,7 +209,7 @@ cd image-certification-workflow/demo-scripts
 mkdir -p ~/aib-demo
 cd ~/aib-demo
 curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/demo-setup.sh
-curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/aib-template-windows-iis.json
+curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/aib-template-windows-iis-wus3.json
 curl -O https://raw.githubusercontent.com/colinweiner111/image-certification-workflow/master/demo-scripts/cleanup.sh
 chmod +x *.sh
 
@@ -223,7 +223,7 @@ bash demo-setup.sh
 
 ### **Part 1: Show the AIB Template**
 
-Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis.json` or [`/demo-scripts/aib-template-windows-iis.json`](./demo-scripts/aib-template-windows-iis.json)):
+Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis-wus3.json` or [`/demo-scripts/aib-template-windows-iis-wus3.json`](./demo-scripts/aib-template-windows-iis-wus3.json)):
 
 ```json
 {
@@ -287,7 +287,7 @@ Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-
 ```
 
 **Files Location**: All demo files are in the repo under `/demo-scripts/`:
-- `aib-template-windows-iis.json` - AIB template
+- `aib-template-windows-iis-wus3.json` - AIB template
 - `demo-setup.sh` - Infrastructure setup script
 - `cleanup.sh` - Cleanup script
 
