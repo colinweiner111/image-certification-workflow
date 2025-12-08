@@ -23,12 +23,17 @@
     "customize": [
       {
         "type": "PowerShell",
-        "name": "Install IIS",
+        "name": "Install and Configure IIS",
         "inline": [
           "Install-WindowsFeature -Name Web-Server -IncludeAllSubFeature",
           "Install-WindowsFeature -Name Web-Asp-Net45",
+          "Import-Module WebAdministration",
           "Set-Service -Name W3SVC -StartupType Automatic",
-          "Start-Service -Name W3SVC"
+          "Set-Service -Name WAS -StartupType Automatic",
+          "Set-ItemProperty 'IIS:\\AppPools\\DefaultAppPool' -Name startMode -Value AlwaysRunning",
+          "Set-WebConfigurationProperty -Filter '/system.applicationHost/applicationPools/add[@name=\"DefaultAppPool\"]' -Name autoStart -Value True -PSPath 'IIS:\\'",
+          "Start-Service -Name W3SVC",
+          "Start-Service -Name WAS"
         ]
       },
       {
