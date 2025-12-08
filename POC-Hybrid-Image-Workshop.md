@@ -455,7 +455,7 @@ az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-
 az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
 ```
 
-2. **Trigger the build**:
+2. **Trigger the build** (takes approximately **30-35 minutes** to complete):
 
 **🐧 Bash:**
 ```bash
@@ -474,7 +474,7 @@ az image builder run --resource-group rg-aib-images-wus3 --name aib-template-win
 Write-Host "Build started. Monitoring progress..."
 ```
 
-3. **Check build status**:
+3. **Check build status** (run this every few minutes to monitor progress):
 
 **🐧 Bash:**
 ```bash
