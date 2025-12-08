@@ -653,8 +653,6 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 **Demo**: Open a browser and navigate to the public IP to show the custom landing page is already there (no post-deployment installation needed).
 
-**Talking Point**: "The image arrived fully configured with IIS and our landing page. No manual setup, no configuration drift, completely reproducible."
-
 ---
 
 ### **Part 6: Update the Image & Redeploy**
