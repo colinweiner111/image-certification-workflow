@@ -44,6 +44,17 @@
       },
       {
         "type": "PowerShell",
+        "name": "Create IIS Startup Task",
+        "inline": [
+          "$action = New-ScheduledTaskAction -Execute 'PowerShell.exe' -Argument '-NoProfile -WindowStyle Hidden -Command \"Start-Service W3SVC,WAS\"'",
+          "$trigger = New-ScheduledTaskTrigger -AtStartup",
+          "$principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -LogonType ServiceAccount -RunLevel Highest",
+          "$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable",
+          "Register-ScheduledTask -TaskName 'Start-IIS-Services' -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description 'Ensures IIS services start on boot'"
+        ]
+      },
+      {
+        "type": "PowerShell",
         "name": "Deploy Custom Landing Page",
         "inline": [
           "$html = '<!DOCTYPE html><html><head><title>Welcome</title></head>'",
@@ -55,11 +66,11 @@
           "$html += ' / ___ |/ /_/ /_/ / /  /  __/  '",
           "$html += '/_/  |_/___/\\__,_/_/   \\___/   '",
           "$html += '                               '",
-          "$html += '  Image Builder v1.0.5         '",
+          "$html += '  Image Builder v1.0.6         '",
           "$html += '</pre>'",
           "$html += '<h1 style=\"font-size: 3em; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 30px 0;\">Welcome to Our Hardened Windows Server</h1>'",
           "$html += '<p style=\"font-size: 1.4em; font-weight: 600; margin: 20px 0;\">*** This image was built with Azure Image Builder ***</p>'",
-          "$html += '<p style=\"font-size: 1.3em; font-weight: 500; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;\">Build Version: 1.0.5 | Built: 2025-12-09 | Region: West US 3 | >> IIS Auto-Start with REBOOT!</p>'",
+          "$html += '<p style=\"font-size: 1.3em; font-weight: 500; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; display: inline-block;\">Build Version: 1.0.6 | Built: 2025-12-09 | Region: West US 3 | >> IIS Startup Task!</p>'",
           "$html += '</body></html>'",
           "Set-Content -Path 'C:\\inetpub\\wwwroot\\index.html' -Value $html"
         ]
@@ -68,8 +79,8 @@
     "distribute": [
       {
         "type": "SharedImage",
-        "galleryImageId": "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.5",
-        "runOutputName": "windows-iis-hardened-1.0.5",
+        "galleryImageId": "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.6",
+        "runOutputName": "windows-iis-hardened-1.0.6",
         "replicationRegions": [
           "westus3"
         ]
