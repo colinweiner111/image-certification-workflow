@@ -4,6 +4,13 @@
 
 ---
 
+## 🚀 Quick Start
+
+**Want to see this in action?** Check out the hands-on workshop:
+- **[POC - Hybrid OS Image Certification Workflow](./POC-Hybrid-Image-Workshop.md)** - Complete walkthrough with step-by-step commands for building versioned Windows IIS images (1.0.1 and 2.0.1)
+
+---
+
 ## Table of Contents
 
 - [1. Purpose](#1-purpose)
