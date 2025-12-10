@@ -657,7 +657,7 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 ### **Part 6: Update the Image & Redeploy**
 
-**Demo Story**: "Now let's show how easy it is to create a new version with updates. We'll use a separate template file to keep things clean."
+**Demo Story**: "For this demo, we'll use a separate JSON template file (v2) to avoid any confusion with version numbers and to show how you can maintain multiple template configurations in parallel. In production, you'd typically update the existing template and use Git as your source of truth—but for demo purposes, this approach keeps things crystal clear."
 
 ### **Manual Steps:**
 
