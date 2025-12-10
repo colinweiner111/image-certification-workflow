@@ -1066,14 +1066,6 @@ Before the demo, ensure you have:
 - ✅ RDP client for Windows VM access
 - ✅ Two monitors recommended (one for terminal, one for browser/Portal)
 
-**Demo-Specific Setup:**
-- ✅ Run `demo-setup.sh` to create all infrastructure
-- ✅ AIB template JSON file created and ready (see Part 1)
-- ✅ Pre-staged AIB build running or recently completed
-- ✅ At least one image version published in ACG
-- ✅ Test VM deployed from gallery image (pre-built, running)
-- ✅ RDP credentials saved and tested
-
 ---
 
 ## Cleanup
