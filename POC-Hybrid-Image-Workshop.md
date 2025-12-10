@@ -677,6 +677,15 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 **Demo Story**: "For this demo, we'll use a separate JSON template file (v2) to avoid any confusion with version numbers and to show how you can maintain multiple template configurations in parallel. In production, you'd typically update the existing template and use Git as your source of truth—but for demo purposes, this approach keeps things crystal clear."
 
+**🔍 Important Note for Production:**
+In a real-world enterprise scenario, you would:
+1. Update the **existing** JSON file with your changes (modify version number, update customizers, etc.)
+2. **Delete** the existing Azure template resource: `az image builder delete --name aib-template-windows-iis-wus3`
+3. **Recreate** it with the same name from your updated JSON: `az image builder create --name aib-template-windows-iis-wus3`
+4. Build the new version to the same gallery definition
+
+**For this demo**, we're using a separate JSON file (`aib-template-windows-iis-wus3-v2.json`) which creates a separate Azure template resource (`aib-template-windows-iis-wus3-v2`). Both templates build to the **same Azure Compute Gallery** definition (`windows-iis-hardened`), just with different version numbers (1.0.4 vs 2.0.1). This keeps the demo clean and avoids any version confusion.
+
 ### **Manual Steps:**
 
 1. **Use the new v2 template** (already created: `aib-template-windows-iis-wus3-v2.json`):
