@@ -2,6 +2,24 @@
 
 ---
 
+## Table of Contents
+
+- [Golden Image Challenges](#golden-image-challenges)
+- [The Solution](#the-solution)
+- [Architecture & Key Concepts](#architecture--key-concepts)
+- [Demo Flow](#demo-flow)
+  - [Part 1: Show the AIB Template](#part-1-show-the-aib-template)
+  - [Part 2: Create Infrastructure](#part-2-create-infrastructure)
+  - [Part 3: Trigger the Build](#part-3-trigger-the-build)
+  - [Part 4: Verify Image in ACG](#part-4-verify-image-in-acg)
+  - [Part 5: Deploy VM from Gallery Image](#part-5-deploy-vm-from-gallery-image)
+  - [Part 6: Update the Image & Redeploy](#part-6-update-the-image--redeploy)
+  - [Part 7: Show Image Tattoo (Provenance Metadata)](#part-7-show-image-tattoo-provenance-metadata)
+- [Key Talking Points](#key-talking-points)
+- [Cleanup](#cleanup)
+
+---
+
 ### Golden Image Challenges
 
 **Current Reality:**
