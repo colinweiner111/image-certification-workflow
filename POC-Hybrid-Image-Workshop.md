@@ -15,7 +15,6 @@
   - [Part 5: Deploy VM from Gallery Image](#part-5-deploy-vm-from-gallery-image)
   - [Part 6: Update the Image & Redeploy](#part-6-update-the-image--redeploy)
   - [Part 7: Show Image Tattoo (Provenance Metadata)](#part-7-show-image-tattoo-provenance-metadata)
-- [Key Talking Points](#key-talking-points)
 - [Cleanup](#cleanup)
 
 ---
@@ -1035,3 +1034,39 @@ Before the demo, ensure you have:
 - ✅ At least one image version published in ACG
 - ✅ Test VM deployed from gallery image (pre-built, running)
 - ✅ RDP credentials saved and tested
+
+---
+
+## Cleanup
+
+After completing the demo, clean up all resources to avoid ongoing costs:
+
+**🐧 Bash:**
+```bash
+# Delete all demo resource groups
+az group delete --name rg-demo-wus3 --yes --no-wait
+az group delete --name rg-aib-images-wus3 --yes --no-wait
+az group delete --name rg-acg-wus3 --yes --no-wait
+```
+
+**💻 PowerShell:**
+```powershell
+# Delete all demo resource groups
+az group delete --name rg-demo-wus3 --yes --no-wait
+az group delete --name rg-aib-images-wus3 --yes --no-wait
+az group delete --name rg-acg-wus3 --yes --no-wait
+```
+
+**What gets deleted:**
+- All VMs and associated resources (NICs, disks, public IPs, NSGs)
+- Azure Image Builder templates and staging resources
+- Azure Compute Gallery with all image versions
+- Managed identities and role assignments
+
+**⚠️ Important Notes:**
+- The `--no-wait` flag allows deletion to run in the background
+- Deletion typically takes 5-10 minutes to complete
+- You can verify deletion in the Azure Portal or by running:
+  ```bash
+  az group list --output table
+  ```
