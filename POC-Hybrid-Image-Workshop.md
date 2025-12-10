@@ -4,6 +4,7 @@
 
 ## Table of Contents
 
+- [Azure Prerequisites](#azure-prerequisites)
 - [Golden Image Challenges](#golden-image-challenges)
 - [The Solution](#the-solution)
 - [Architecture & Key Concepts](#architecture--key-concepts)
@@ -239,6 +240,8 @@ bash demo-setup.sh
 ---
 
 ### **Part 1: Show the AIB Template**
+
+> 📝 **Before you begin**: Review [Azure Prerequisites](#azure-prerequisites) to ensure your environment is ready for the demo.
 
 Open your AIB template JSON in VS Code (`C:\_Labs\demo-aib\aib-template-windows-iis-wus3.json` or [`/demo-scripts/aib-template-windows-iis-wus3.json`](./demo-scripts/aib-template-windows-iis-wus3.json)):
 
