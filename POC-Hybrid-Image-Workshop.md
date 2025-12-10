@@ -9,7 +9,7 @@
 - [The Solution](#the-solution)
 - [Architecture & Key Concepts](#architecture--key-concepts)
 - [Demo — Windows Server with IIS](#demo--windows-server-with-iis)
-  - [Part 1: Show the AIB Template](#part-1-show-the-aib-template)
+  - [Part 1: Review the AIB Template](#part-1-review-the-aib-template)
   - [Part 2: Create Infrastructure](#part-2-create-infrastructure)
   - [Part 3: Trigger the Build](#part-3-trigger-the-build)
   - [Part 4: Verify Image in ACG](#part-4-verify-image-in-acg)
@@ -295,7 +295,7 @@ bash demo-setup.sh
 
 ---
 
-### **Part 1: Show the AIB Template**
+### **Part 1: Review the AIB Template**
 
 > 📝 **Before you begin**: Review [Azure Prerequisites](#azure-prerequisites) to ensure your environment is ready for the demo.
 
