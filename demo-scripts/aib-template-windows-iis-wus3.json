@@ -63,7 +63,7 @@
     "distribute": [
       {
         "type": "SharedImage",
-        "galleryImageId": "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/images/windows-iis-hardened/versions/1.0.1",
+        "galleryImageId": "/subscriptions/f4c81bdc-9009-4c72-89ae-f96947f57d27/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1",
         "runOutputName": "windows-iis-hardened-1.0.1",
         "replicationRegions": [
           "westus3"
