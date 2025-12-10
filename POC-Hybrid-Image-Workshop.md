@@ -171,8 +171,8 @@ Present each concept with a **What** + **Why** format:
 ---
 
 #### **Concept 6: VHD Export (Hybrid Environments)**
-- **What**: Portable disk format for exporting images to on-prem (VMware, Hyper-V, AVS).
-- **Why**: "Build once in Azure, run anywhere."
+- **What**: Export complete VM images from Azure Compute Gallery as VHD files for use in on-premises environments (VMware, Hyper-V, Azure VMware Solution).
+- **Why**: "Build once in Azure, run anywhere" - same hardened image across cloud and on-prem.
 
 ---
 
