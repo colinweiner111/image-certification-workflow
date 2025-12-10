@@ -942,9 +942,6 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 
 ---
 
-**Total Demo Time**: 10 minutes  
-**Audience Impact**: High—shows real-world hardening workflow, reproducibility, versioning, and audit trail all in action.
-
 **Resource Group Architecture:**
 
 The demo uses three separate resource groups for security and lifecycle management:
