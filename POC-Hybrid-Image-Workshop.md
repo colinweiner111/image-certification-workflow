@@ -716,7 +716,7 @@ $publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-test-v1 --sho
 Write-Host "VM deployed! Access it at: http://$publicIp"
 ```
 
-**Demo**: Open a browser and navigate to the public IP to show the custom landing page is already there (no post-deployment installation needed).
+**Verify**: Open a browser and navigate to the public IP. The custom IIS landing page is immediately available—everything was baked into the image.
 
 ---
 
