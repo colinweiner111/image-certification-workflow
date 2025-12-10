@@ -1060,12 +1060,6 @@ Before the demo, ensure you have:
 - ✅ Azure Virtual Network (VNet) — for demo VM deployment
 - ✅ Network Security Group (NSG) — with RDP (port 3389) and HTTPS (port 443) rules
 
-**Demo Tools:**
-- ✅ VS Code (optional but recommended for showing templates)
-- ✅ Web browser for testing deployed IIS landing page
-- ✅ RDP client for Windows VM access
-- ✅ Two monitors recommended (one for terminal, one for browser/Portal)
-
 ---
 
 ## Cleanup
