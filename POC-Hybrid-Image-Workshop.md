@@ -8,7 +8,7 @@
 - [Golden Image Challenges](#golden-image-challenges)
 - [The Solution](#the-solution)
 - [Architecture & Key Concepts](#architecture--key-concepts)
-- [Demo Flow](#demo-flow)
+- [Demo — Windows Server with IIS](#demo--windows-server-with-iis)
   - [Part 1: Show the AIB Template](#part-1-show-the-aib-template)
   - [Part 2: Create Infrastructure](#part-2-create-infrastructure)
   - [Part 3: Trigger the Build](#part-3-trigger-the-build)
@@ -209,6 +209,69 @@ Present each concept with a **What** + **Why** format:
 ### Demo — Windows Server with IIS
 
 **Demo Scenario**: Build a Windows Server 2022 image with IIS + custom landing page, deploy it, then update it.
+
+#### Lab Workflow Overview
+
+This lab demonstrates the complete AIB workflow by creating two image versions:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Lab Workflow - Two Versions               │
+└──────────────────────────────────────────────────────────────┘
+
+📋 Part 1-2: Setup
+  • Create AIB template (aib-template-windows-iis-wus3.json)
+  • Create infrastructure (resource groups, gallery, identity)
+
+🔨 Part 3-4: Build Version 1.0.1
+  [Marketplace Image: Windows Server 2022]
+           ↓
+  [AIB Customizations]
+    • Install IIS
+    • Configure auto-start
+    • Deploy landing page (RED/ORANGE gradient)
+    • Windows Restart
+           ↓
+  [Azure Compute Gallery]
+    • Image version 1.0.1 created
+    • Metadata tagged
+           ↓
+  [Deploy vm-iis-test-v1]
+    • Public IP assigned
+    • HTTP port opened
+    • Landing page: "Reboot Works!" (red/orange)
+
+✅ Verify: http://<public-ip> shows version 1.0.1
+
+🔄 Part 6: Build Version 2.0.1
+  [Same Base Image]
+           ↓
+  [AIB Customizations - UPDATED]
+    • Install IIS
+    • Configure auto-start
+    • Deploy landing page (PURPLE gradient) ← NEW
+    • Windows Restart
+           ↓
+  [Azure Compute Gallery]
+    • Image version 2.0.1 created ← NEW VERSION
+    • Both 1.0.1 and 2.0.1 available
+           ↓
+  [Deploy vm-iis-test-v2]
+    • Public IP assigned
+    • HTTP port opened
+    • Landing page: "Updated Template Demo!" (purple)
+
+✅ Verify: Both VMs running side-by-side
+  • vm-iis-test-v1: version 1.0.1 (red/orange)
+  • vm-iis-test-v2: version 2.0.1 (purple)
+
+🎯 Demo Outcomes:
+  ✓ Versioned, reproducible images
+  ✓ Visual proof of customization differences
+  ✓ Rollback capability (deploy either version)
+  ✓ Audit trail via image tattoo metadata
+  ✓ Zero downtime (v1 runs while v2 builds)
+```
 
 **Demo Scripts Available**: 
 - **Option 1 - Manual**: Follow Part 1 (Show the AIB Template), Part 2 (Create Infrastructure), Part 3 (Trigger the Build), Part 4 (Verify Image), Part 5 (Deploy VM), etc. below to run each step individually and understand the workflow
