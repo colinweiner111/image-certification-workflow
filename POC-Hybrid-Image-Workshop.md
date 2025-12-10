@@ -809,7 +809,7 @@ Start-Process "http://$publicIp"
 ```
 
 **Demo Talking Points**:
-- **Version 1.0.4** (red/orange) vs **Version 2.0.1** (purple) - visual proof of versioning
+- **Version 1.0.1** (red/orange) vs **Version 2.0.1** (purple) - visual proof of versioning
 - **IIS auto-start fixed** - Windows restart during build ensures services start on first boot
 - **Git as source of truth** - Templates stored in GitHub, Azure resources are ephemeral
 - **Rollback capability** - Can deploy either version at any time from the gallery
