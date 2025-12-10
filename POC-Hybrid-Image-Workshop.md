@@ -170,13 +170,7 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-#### **Concept 6: GRC (Governance, Risk, Compliance)**
-- **What**: Tracking system for image certification requests, approvals, audit trails.
-- **Why**: Audit requirement—prove who requested, who approved, what changed.
-
----
-
-#### **Concept 7: VHD Export (Hybrid Environments)**
+#### **Concept 6: VHD Export (Hybrid Environments)**
 - **What**: Portable disk format for exporting images to on-prem (VMware, Hyper-V, AVS).
 - **Why**: "Build once in Azure, run anywhere."
 
@@ -192,11 +186,10 @@ Present each concept with a **What** + **Why** format:
 - Same hardening, same configuration, same audit trail everywhere
 
 **Full Compliance Audit Trail:**
-- GRC ticket + build timestamp → Request provenance
 - AIB build logs → What was customized
 - Image tattoo metadata → Which image is on which VM
-- Defender scan results → Vulnerability assessment
-- Approval sign-off → Authorization
+- Build timestamps → When images were created
+- Version history → Track all image releases
 
 **Zero Configuration Drift:**
 - Bake everything into the image (OS patches, agents, apps)
