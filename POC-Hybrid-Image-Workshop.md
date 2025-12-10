@@ -880,12 +880,6 @@ az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, 
    - vm-iis-test-v1: Version 1.0.1 landing page (red/orange gradient)
    - vm-iis-test-v2: Version 2.0.1 landing page (purple gradient)
 
-**Messages:**
-- "We updated the template, triggered a new build (30-35 min), and deployed v2.0.1 in parallel with v1.0.1."
-- "Zero downtime. Existing VMs on v1.0.1 stay running while new deployments get v2.0.1."
-- "Rollback is instant: just deploy from v1.0.1 again or update VMSS model."
-- "Both versions remain in the gallery - immutable version history for compliance."
-
 ---
 
 ### **Part 7: Show Image Tattoo (Provenance Metadata)**
