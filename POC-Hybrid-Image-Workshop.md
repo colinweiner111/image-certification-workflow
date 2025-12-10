@@ -514,13 +514,12 @@ az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_c
 ```bash
 az image builder create \
   --resource-group rg-aib-images-wus3 \
-  --name aib-template-windows-iis-wus3 \
-  --image-template aib-template-windows-iis-wus3.json
+  --image-template @aib-template-windows-iis-wus3.json
 ```
 
 **💻 PowerShell:**
 ```powershell
-az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json
+az image builder create --resource-group rg-aib-images-wus3 --image-template '@aib-template-windows-iis-wus3.json'
 ```
 
 **Note**: If you get a conflict error about template already existing, delete it first:
@@ -760,7 +759,7 @@ az image builder create \
 **💻 PowerShell:**
 ```powershell
 # Create new template with v2 configuration
-az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3-v2 --image-template aib-template-windows-iis-wus3-v2.json
+az image builder create --resource-group rg-aib-images-wus3 --image-template '@aib-template-windows-iis-wus3-v2.json'
 ```
 
 3. **Trigger new build**:
@@ -1035,7 +1034,7 @@ az account show --query id -o tsv
 echo ""
 echo "Now update the aib-template-windows-iis-wus3.json file with your subscription ID"
 echo "Then create the AIB template resource with:"
-echo "az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json"
+echo "az image builder create --resource-group rg-aib-images-wus3 --image-template '@aib-template-windows-iis-wus3.json'"
 ```
 
 **Cleanup Script** (for resetting demo environment):
