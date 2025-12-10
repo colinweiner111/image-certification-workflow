@@ -352,7 +352,7 @@ az group create --name rg-acg-wus3 --location westus3
 az group create --name rg-demo-wus3 --location westus3
 ```
 
-**💬 Key Messages:**
+**Messages:**
 - "We separate resources into three groups for security and lifecycle management."
 - "Build infrastructure (rg-aib-images-wus3) can be deleted without affecting stored images."
 - "Gallery (rg-acg-wus3) persists image versions long-term."
@@ -445,7 +445,7 @@ az sig image-definition create \
 az sig image-definition create --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --publisher MyCompany --offer WindowsServer --sku 2022-IIS --os-type Windows --os-state Generalized --hyper-v-generation V2 --features SecurityType=TrustedLaunch --location westus3
 ```
 
-**💬 Key Messages:**
+**Messages:**
 - "The image definition is like a container for versions - 1.0.1, 1.0.2, 1.0.3, etc."
 - "We're specifying Gen2 and TrustedLaunch for enhanced security."
 - "Publisher/Offer/SKU helps us organize different image families."
@@ -584,7 +584,7 @@ az sig image-version show \
 az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "{Version:name, PublishedDate:publishingProfile.publishedDate, SourceImage:tags.VMImageBuilderSource, CorrelationId:tags.correlationId, DateCreated:tags.DateCreated}" --output table
 ```
 
-**💬 Key Messages:**
+**Messages:**
 - "The image is now versioned, replicated to 3 regions, and available for deployment."
 - "Defender automatically scanned it for vulnerabilities within 24 hours."
 - "The metadata tattoo proves who built it, when, and what was customized."
@@ -808,7 +808,7 @@ Write-Host "Browse to: http://$publicIp"
 Start-Process "http://$publicIp"
 ```
 
-**🎯 What to Highlight:**
+**Highlights:**
 - **Version 1.0.1** (red/orange) vs **Version 2.0.1** (purple) - visual proof of versioning
 - **IIS auto-start fixed** - Windows restart during build ensures services start on first boot
 - **Git as source of truth** - Templates stored in GitHub, Azure resources are ephemeral
@@ -833,7 +833,7 @@ az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, 
    - vm-iis-test-v1: Version 1.0.1 landing page (red/orange gradient)
    - vm-iis-test-v2: Version 2.0.1 landing page (purple gradient)
 
-**💬 Key Messages:**
+**Messages:**
 - "We updated the template, triggered a new build (30-35 min), and deployed v2.0.1 in parallel with v1.0.1."
 - "Zero downtime. Existing VMs on v1.0.1 stay running while new deployments get v2.0.1."
 - "Rollback is instant: just deploy from v1.0.1 again or update VMSS model."
@@ -892,7 +892,7 @@ az sig image-version show \
 az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --gallery-image-version 1.0.1 --query "tags" --output json
 ```
 
-**💬 Key Messages:**
+**Messages:**
 - "The image tattoo is automatically embedded by Azure Image Builder in the gallery image version tags."
 - "This shows the exact source image (Windows Server 2022 build 20348.4405), publication timestamp, and unique correlation ID."
 - "During security audits, we can prove the complete provenance chain: source image → AIB template → gallery version → deployed VM."
