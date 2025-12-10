@@ -589,11 +589,6 @@ az image builder show --resource-group rg-aib-images-wus3 --name aib-template-wi
 az image builder show-runs --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "[0].[runState, runOutputName]" -o table
 ```
 
-**Demo Note**: For a live customer call, you'd either:
-- Pre-stage a completed build to show results immediately
-- Show a build-in-progress and explain the timeline
-- Show historical builds to demonstrate success rate
-
 ---
 
 ### **Part 4: Verify Image in ACG**
