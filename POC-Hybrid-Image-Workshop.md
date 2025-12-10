@@ -632,7 +632,7 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 ```
 
 **Messages:**
-- "The image is now versioned, replicated to 3 regions, and available for deployment."
+- "The image is now versioned and available for deployment."
 - "Defender automatically scanned it for vulnerabilities within 24 hours."
 - "The metadata tattoo proves who built it, when, and what was customized."
 
