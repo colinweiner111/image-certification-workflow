@@ -687,8 +687,6 @@ In a real-world enterprise scenario, you would:
 > **📚 Reference**: [Azure Image Builder overview - Microsoft Learn](https://learn.microsoft.com/azure/virtual-machines/image-builder-overview)  
 > **Best Practice**: Use a single template per image definition (e.g., one template for "windows-iis-hardened"). The template is ephemeral—your JSON file in Git is the source of truth. Image versioning happens in the Azure Compute Gallery (1.0.1, 1.0.2, etc.), not by creating multiple templates. This follows Infrastructure as Code principles and keeps your resource management clean.
 
-**For this demo**, we're using a separate JSON file (`aib-template-windows-iis-wus3-v2.json`) which creates a separate Azure template resource (`aib-template-windows-iis-wus3-v2`). Both templates build to the **same Azure Compute Gallery** definition (`windows-iis-hardened`), just with different version numbers (1.0.4 vs 2.0.1). This keeps the demo clean and avoids any version confusion.
-
 ### **Manual Steps:**
 
 1. **Use the new v2 template** (already created: `aib-template-windows-iis-wus3-v2.json`):
