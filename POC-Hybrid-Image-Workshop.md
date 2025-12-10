@@ -657,35 +657,30 @@ Write-Host "VM deployed! Access it at: http://$publicIp"
 
 ### **Part 6: Update the Image & Redeploy**
 
+**Demo Story**: "Now let's show how easy it is to create a new version with updates. We'll use a separate template file to keep things clean."
+
 ### **Manual Steps:**
 
-1. **Edit the template** - Update version to 1.0.2 and change landing page style:
-   - Change gradient colors from purple to orange/red (`#ff6b6b` to `#ff8e53`)
-   - Add ASCII art logo
-   - Update version text to "1.0.2"
-   - **Important**: Avoid using emoji characters in PowerShell inline scripts (UTF-8 encoding issues)
+1. **Use the new v2 template** (already created: `aib-template-windows-iis-wus3-v2.json`):
+   - **New version**: 2.0.1 (purple gradient landing page)
+   - **IIS auto-start fix**: WindowsRestart customizer ensures IIS starts on first boot
+   - **Visual difference**: Purple theme vs red/orange (easy to distinguish in demo)
 
-2. **Delete the old template and recreate with updated JSON**:
+2. **Create the new template** (no delete needed - this is a brand new template):
 
 **🐧 Bash:**
 ```bash
-# AIB doesn't support updates - must delete and recreate
-az image builder delete \
-  --resource-group rg-aib-images-wus3 \
-  --name aib-template-windows-iis-wus3
-
+# Create new template with v2 configuration
 az image builder create \
   --resource-group rg-aib-images-wus3 \
-  --name aib-template-windows-iis-wus3 \
-  --image-template aib-template-windows-iis-wus3.json
+  --name aib-template-windows-iis-wus3-v2 \
+  --image-template aib-template-windows-iis-wus3-v2.json
 ```
 
 **💻 PowerShell:**
 ```powershell
-# AIB doesn't support updates - must delete and recreate
-az image builder delete --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3
-
-az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --image-template aib-template-windows-iis-wus3.json
+# Create new template with v2 configuration
+az image builder create --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3-v2 --image-template aib-template-windows-iis-wus3-v2.json
 ```
 
 3. **Trigger new build**:
@@ -694,23 +689,25 @@ az image builder create --resource-group rg-aib-images-wus3 --name aib-template-
 ```bash
 az image builder run \
   --resource-group rg-aib-images-wus3 \
-  --name aib-template-windows-iis-wus3 \
+  --name aib-template-windows-iis-wus3-v2 \
   --no-wait
 
 # Monitor build progress
 az image builder show \
   --resource-group rg-aib-images-wus3 \
-  --name aib-template-windows-iis-wus3 \
+  --name aib-template-windows-iis-wus3-v2 \
   --query "lastRunStatus"
 ```
 
 **💻 PowerShell:**
 ```powershell
-az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --no-wait
+az image builder run --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3-v2 --no-wait
 
 # Monitor build progress
-az image builder show --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3 --query "lastRunStatus"
+az image builder show --resource-group rg-aib-images-wus3 --name aib-template-windows-iis-wus3-v2 --query "lastRunStatus"
 ```
+
+**⏱️ Build Time**: ~30-40 minutes (use this time to discuss architecture, compliance, hybrid export capabilities)
 
 4. **Once complete (Succeeded), verify in gallery**:
 
@@ -734,11 +731,11 @@ az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
-  --name vm-iis-test-002 \
-  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" \
+  --name vm-iis-test-v2 \
+  --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/2.0.1" \
   --size Standard_B2as_v2 \
   --admin-username azureuser \
-  --admin-password "P@ssw0rd123!AzureVM" \
+  --admin-password "Password123!" \
   --public-ip-sku Standard \
   --nsg-rule RDP \
   --security-type TrustedLaunch
@@ -748,14 +745,14 @@ az vm create \
 ```powershell
 $subscriptionId = az account show --query id -o tsv
 
-az vm create --resource-group rg-demo-wus3 --name vm-iis-test-002 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.2" --size Standard_B2as_v2 --admin-username azureuser --admin-password "P@ssw0rd123!AzureVM" --public-ip-sku Standard --nsg-rule RDP --security-type TrustedLaunch
+az vm create --resource-group rg-demo-wus3 --name vm-iis-test-v2 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/2.0.1" --size Standard_B2as_v2 --admin-username azureuser --admin-password "Password123!" --public-ip-sku Standard --nsg-rule RDP --security-type TrustedLaunch
 ```
 
 6. **Open HTTP port**:
 
 **🐧 Bash:**
 ```bash
-nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv)
+nsgName=$(az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-v2')].name" -o tsv)
 
 az network nsg rule create \
   --resource-group rg-demo-wus3 \
@@ -769,12 +766,27 @@ az network nsg rule create \
 
 **💻 PowerShell:**
 ```powershell
-$nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-002')].name" -o tsv
+$nsgName = az network nsg list --resource-group rg-demo-wus3 --query "[?contains(name, 'vm-iis-test-v2')].name" -o tsv
 
 az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --name AllowHTTP --priority 1001 --destination-port-ranges 80 --protocol Tcp --access Allow
 ```
 
-7. **Show both VMs running with different versions**:
+7. **Get public IP and test the landing page**:
+
+**💻 PowerShell:**
+```powershell
+$publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-test-v2 --show-details --query publicIps -o tsv
+Write-Host "Browse to: http://$publicIp"
+Start-Process "http://$publicIp"
+```
+
+**Demo Talking Points**:
+- **Version 1.0.4** (red/orange) vs **Version 2.0.1** (purple) - visual proof of versioning
+- **IIS auto-start fixed** - Windows restart during build ensures services start on first boot
+- **Git as source of truth** - Templates stored in GitHub, Azure resources are ephemeral
+- **Rollback capability** - Can deploy either version at any time from the gallery
+
+8. **Show both image versions in the gallery**:
 
 **🐧 Bash:**
 ```bash
