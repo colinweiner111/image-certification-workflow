@@ -28,7 +28,7 @@
 - ❌ Configuration drift over time → click ops
 - ❌ No way to prove image provenance during security audits
 
-**What Teams Are Asking:**
+**Common Questions:**
 - "How do we know which VMs have which hardening level?"
 - "We can't roll back if an image breaks production."
 - "Compliance audit asked for our image build logs—we had none."
