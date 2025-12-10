@@ -170,19 +170,13 @@ Present each concept with a **What** + **Why** format:
 
 ---
 
-#### **Concept 6: VHD Export (Hybrid Environments)**
-- **What**: Export complete VM images from Azure Compute Gallery as VHD files for use in on-premises environments (VMware, Hyper-V, Azure VMware Solution).
-- **Why**: "Build once in Azure, run anywhere" - same hardened image across cloud and on-prem.
-
----
-
 ### Why This Architecture Matters
 
-**Single Image, Multiple Environments:**
+**Single Image, Multiple Deployments:**
 - Build once in AIB template ✅
 - Publish to ACG ✅
+- Deploy to Azure VMs ✅
 - Deploy to Azure VMSS ✅
-- Export as VHD for VMware/AVS ✅
 - Same hardening, same configuration, same audit trail everywhere
 
 **Full Compliance Audit Trail:**
