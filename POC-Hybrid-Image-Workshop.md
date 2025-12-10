@@ -77,49 +77,44 @@ Continuous Rebuilds (Monthly or Triggered)
 
 ### High-Level Workflow Diagram
 
-Display the architecture from `README.md` → **Section 2.2**:
+This lab demonstrates the core AIB workflow:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│              Image Certification Workflow                        │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│              POC Lab - Azure Image Builder Workflow          │
+└──────────────────────────────────────────────────────────────┘
 
-[Client Request / GRC Ticket]
+[Marketplace Image]
+  Windows Server 2022 Datacenter Gen2
            ↓
-[Pre-Validation Gateway]
+[Azure Image Builder Template]
+  • Install IIS (Web-Server feature)
+  • Configure IIS services (auto-start)
+  • Deploy custom landing page (HTML/CSS)
+  • Windows Restart (ensure services initialize)
+  • Image Tattooing (metadata)
            ↓
-[Azure Image Builder (BYOS Subnet)]
-    • OS Patching
-    • Agent Installation
-    • Customizers (PS/Bash/DSC)
-    • Image Tattooing
-    • Sysprep/Generalization
+[Build Process (30-35 min)]
+  • Provision temporary build VM
+  • Apply customizations
+  • Sysprep & generalize
+  • Capture image
            ↓
 [Azure Compute Gallery]
-    • Image Version Created
-    • Metadata Tagged
-    • Regional Replication
+  • Store versioned images (1.0.1, 2.0.1)
+  • Tag with provenance metadata
+  • Ready for deployment
            ↓
-[Defender for Cloud] → [Automatic Image Scanning]
+[Deploy Test VMs]
+  • vm-iis-test-v1 (version 1.0.1)
+  • vm-iis-test-v2 (version 2.0.1)
+  • Verify custom landing pages
            ↓
-[Sandbox Testing]
-    • Functional Tests
-    • Integration Tests
-    • Performance Validation
-           ↓
-[Approval & Documentation]
-    • Security Review
-    • GRC Sign-off
-    • Artifact Package
-           ↓
-[Distribution]
-    • Azure: VMSS, VMs, DevOps Pipelines
-    • Hybrid: VHD Export → AVS/VMware
-           ↓
-[Continuous Update Loop]
-    • Source Image Triggers
-    • Scheduled Rebuilds
-    • Lifecycle Policies
+[Demo Outcome]
+  ✓ Versioned, reproducible images
+  ✓ Visual proof of customization
+  ✓ Audit trail via image tattoo
+  ✓ Rollback capability
 ```
 
 ---
