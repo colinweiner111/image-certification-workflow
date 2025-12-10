@@ -15,7 +15,7 @@
   - [Part 4: Verify Image in ACG](#part-4-verify-image-in-acg)
   - [Part 5: Deploy VM from Gallery Image](#part-5-deploy-vm-from-gallery-image)
   - [Part 6: Update the Image & Redeploy](#part-6-update-the-image--redeploy)
-  - [Part 7: Show Image Tattoo (Provenance Metadata)](#part-7-show-image-tattoo-provenance-metadata)
+  - [Part 7: Verify Image Metadata](#part-7-verify-image-metadata)
 - [Cleanup](#cleanup)
 
 ---
@@ -882,7 +882,7 @@ az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, 
 
 ---
 
-### **Part 7: Show Image Tattoo (Provenance Metadata)**
+### **Part 7: Verify Image Metadata**
 
 ### **Manual Steps:**
 
