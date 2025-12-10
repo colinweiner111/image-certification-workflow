@@ -603,7 +603,7 @@ az sig image-version show --resource-group rg-acg-wus3 --gallery-name acg_corp_i
 ```bash
 az vm create \
   --resource-group rg-demo-wus3 \
-  --name vm-iis-demo-001 \
+  --name vm-iis-test-v1 \
   --image "/subscriptions/{sub}/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1" \
   --size Standard_B2as_v2 \
   --admin-username azureuser \
@@ -619,7 +619,7 @@ az vm create \
 $subscriptionId = az account show --query id -o tsv
 
 # Deploy VM
-az vm create --resource-group rg-demo-wus3 --name vm-iis-demo-001 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1" --size Standard_B2as_v2 --admin-username azureuser --admin-password "ComplexPassword123!" --nsg-rule RDP --public-ip-sku Standard --security-type TrustedLaunch
+az vm create --resource-group rg-demo-wus3 --name vm-iis-test-v1 --image "/subscriptions/$subscriptionId/resourceGroups/rg-acg-wus3/providers/Microsoft.Compute/galleries/acg_corp_images_wus3/images/windows-iis-hardened/versions/1.0.1" --size Standard_B2as_v2 --admin-username azureuser --admin-password "ComplexPassword123!" --nsg-rule RDP --public-ip-sku Standard --security-type TrustedLaunch
 ```
 
 2. **Open HTTP port 80**:
@@ -655,7 +655,7 @@ az network nsg rule create --resource-group rg-demo-wus3 --nsg-name $nsgName --n
 ```bash
 publicIp=$(az vm show \
   --resource-group rg-demo-wus3 \
-  --name vm-iis-demo-001 \
+  --name vm-iis-test-v1 \
   --show-details \
   --query publicIps -o tsv)
 
@@ -664,7 +664,7 @@ echo "VM deployed! Access it at: http://$publicIp"
 
 **💻 PowerShell:**
 ```powershell
-$publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-demo-001 --show-details --query publicIps -o tsv
+$publicIp = az vm show --resource-group rg-demo-wus3 --name vm-iis-test-v1 --show-details --query publicIps -o tsv
 
 Write-Host "VM deployed! Access it at: http://$publicIp"
 ```
@@ -753,7 +753,7 @@ az sig image-version list \
 az sig image-version list --resource-group rg-acg-wus3 --gallery-name acg_corp_images_wus3 --gallery-image-definition windows-iis-hardened --output table
 ```
 
-5. **Deploy NEW VM from version 1.0.2**:
+5. **Deploy NEW VM from version 2.0.1**:
 
 **🐧 Bash:**
 ```bash
@@ -830,12 +830,12 @@ az vm list --resource-group rg-demo-wus3 --show-details --query "[].{Name:name, 
 ```
 
 8. **Browse to both IPs to see visual difference**:
-   - vm-iis-demo-001: Version 1.0.1 landing page
-   - vm-iis-test-002: Version 1.0.2 landing page with updates
+   - vm-iis-test-v1: Version 1.0.1 landing page (red/orange gradient)
+   - vm-iis-test-v2: Version 2.0.1 landing page (purple gradient)
 
 **Talking Points:**
-- "We updated the template, triggered a new build (30-35 min), and deployed v1.0.2 in parallel with v1.0.1."
-- "Zero downtime. Existing VMs on v1.0.1 stay running while new deployments get v1.0.2."
+- "We updated the template, triggered a new build (30-35 min), and deployed v2.0.1 in parallel with v1.0.1."
+- "Zero downtime. Existing VMs on v1.0.1 stay running while new deployments get v2.0.1."
 - "Rollback is instant: just deploy from v1.0.1 again or update VMSS model."
 - "Both versions remain in the gallery - immutable version history for compliance."
 
